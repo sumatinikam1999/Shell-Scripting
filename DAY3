@@ -1,0 +1,120 @@
+Input and output redirection:
+----------------------------
+I/O redirection helps us to change the sources and destinations of the input and output using redirect operators.
+ 
+source : How the input you are passing
+destination: where the output is printing or storing
+ 
+Redirection Operators:
+---------------------
+ 
+1) > --> redirects the output of a command to the file.
+ 
+root@ip-172-31-31-119:~# echo " Hello world"
+ Hello world
+root@ip-172-31-31-119:~# echo " Hello world" > output.txt
+root@ip-172-31-31-119:~# cat output.txt
+ Hello world
+ 
+2) >> --> redirects the output of a command to the file and append it at the end of the file instead of overriding.
+ 
+root@ip-172-31-31-119:~# cat output.txt
+ Hello world
+root@ip-172-31-31-119:~# echo " My name is Bhargav" > output.txt
+root@ip-172-31-31-119:~# cat output.txt
+ My name is Bhargav
+root@ip-172-31-31-119:~# echo " Hello world" >> output.txt
+root@ip-172-31-31-119:~# cat output.txt
+ My name is Bhargav
+ Hello world
+root@ip-172-31-31-119:~#
+ 
+3) tee : Redirects the output to the output file and simultaneously prints on the terminal.
+ 
+root@ip-172-31-31-119:~# echo "Hello sumati" | tee output.txt
+Hello sumati
+root@ip-172-31-31-119:~# cat output.txt
+Hello sumati
+root@ip-172-31-31-119:~#
+ 
+Input redirection:
+-----------------
+ 
+1) '<' --> redirects the input to the command from the file instead of command line or terminal.
+ 
+root@ip-172-31-31-119:~# cat > fruits.txt
+Apple
+pomegranate
+Banana
+orange
+grapes
+mosambi
+root@ip-172-31-31-119:~# sort < fruits.txt
+Apple
+Banana
+grapes
+mosambi
+orange
+pomegranate
+ 
+Error_redirection:
+-----------------
+1) '2>' --> redirects the error to the file and overwrites the file if already any error logs are existed in the file.
+ 
+root@ip-172-31-31-119:~# ls sumati.txt
+ls: cannot access 'sumati.txt': No such file or directory
+root@ip-172-31-31-119:~# ls sumati.txt 2> error.log
+root@ip-172-31-31-119:~# cat error
+cat: error: No such file or directory
+root@ip-172-31-31-119:~# cat error.log
+ls: cannot access 'sumati.txt': No such file or directory
+root@ip-172-31-31-119:~#
+ 
+2) "2>>" --> redirects the error to the file and append the error logs at the end of the file.
+ 
+root@ip-172-31-31-119:~# ls bhargav.txt 2>> error.log
+root@ip-172-31-31-119:~# cat error.log
+ls: cannot access 'sumati.txt': No such file or directory
+ls: cannot access 'bhargav.txt': No such file or directory
+root@ip-172-31-31-119:~#
+ 
+Redirects the both error and output:
+-----------------------------------
+ 
+1) To redirect the error and output and to overwrite the file.
+ 
+root@ip-172-31-31-119:~# bash error.sh > /tmp/error 2>&1
+root@ip-172-31-31-119:~# cat /tmp/error
+ 
+2) To redirect the error and output and append at the end of the file.
+ 
+root@ip-172-31-31-119:~# bash error.sh >> /tmp/error 2>&1
+root@ip-172-31-31-119:~# cat /tmp/error
+ 
+ 
+1) create a script to find the even and odd numbers between 1 and 100.
+ 
+#!/bin/bash
+ 
+for i in {1..100}; do
+    if [ $((i % 2)) -eq 0 ]; then
+        echo "$i is an even number"
+    else
+        echo "$i is an odd number"
+    fi
+done
+ 
+2) create a script to print the user input and exit the script when the user input is exit.
+ 
+#!/bin/bash
+ 
+while true; do
+    read -p "Enter the user input or enter the exit to quit the execution :" User_input
+ 
+    if [ "$User_input" == "exit" ]; then
+        echo "exiting the loop"
+        break
+    else
+        echo "UserInput is $User_input"
+    fi
+done 

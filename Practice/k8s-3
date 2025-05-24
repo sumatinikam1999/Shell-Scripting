@@ -1,0 +1,98 @@
+Replication controller: it will make sure we have all the repliacs are running and app won't crash even though pod crashes
+responsible for redirecting traffic to active pod
+it will make sure application highly available
+load balancing
+if we have defined one replica before it goes it will spin up new pod
+
+as pod is using resources from node if node capacity completed then we have spin up new node and we can provision the pod in the node
+
+vi rc.yaml
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  labels:
+    env: prod
+spec:
+  template:
+    metadata:
+      labels:
+        env: test
+    spec:
+      containers:
+        - name: nginx-pod
+          image: nginx
+          ports:
+           - containerPort: 80
+  replicas: 3
+  selector:
+  matchLables:
+    env: demo
+      
+
+kubectl apply -f rc.yaml
+kubectl get pods
+kubectl describe pod
+
+diff RC(legacy version) and RS(newer and preferred version)
+
+RC used to manager resources pods that were created as part of that RC
+but with RS we can manage existing pod as well which is not part of this RS we can use selector for that
+
+
+
+kubectl explain rs
+
+kubectl delete rc/nginx-rc
+
+kubectl edit rs
+
+kubectl scale --replicas=10 rs/nginx-rs
+
+kubectl scale --help
+
+suppose pods are running on version 1 and we can to update to version 2, if we think to do it using replica set then it will update at once on all pod
+and user will face downtime
+
+deployment will make chnages in rolling fashion means when it's updating on one pod traffic is served to other two pods and once that first udated
+then it will move to another pod and server traffic to old n new version so users won't get impacted
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    env: prod
+spec:
+  template:
+    metadata:
+      labels:
+        env: test
+    spec:
+      containers:
+        - name: nginx-pod
+          image: nginx
+          ports:
+           - containerPort: 80
+  replicas: 3
+  selector:
+  matchLables:
+    env: demo
+
+kubectl get deploy
+kubectl get all
+
+changing live object
+kubectl set image deploy/nginx-deploy \
+nginx=nginx:1.9.1
+
+kubectl describe deploy/nginx-deploy
+
+kubectl rollout history deploy/nginx-deploy
+kubectl rollout undo deploy/nginx-deploy
+
+kubectl create deploy/nginx-deploy-new --dry-run=client --image=client -o yaml > deploy.yaml
+
+
+
+
+

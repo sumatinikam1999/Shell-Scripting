@@ -1,0 +1,134 @@
+#1) regular expressions are used to validate the input data.
+BHArga123
+#!/bin/bash
+ 
+$USER=$1
+ 
+if [[ $USER =~ ^[A-Z]{3}[a-z]{3}[0-9]{3}$ ]]; then
+    echo "UserInput is valid"
+else
+    echo "UserInput is invalid"
+fi
+ 
+<<comment
+For regular expressions if condition will be like this if [[ <condition> ]]
+-eq, -gt --> numbers
+== --> string
+=~ --> regular expressions or regex
+^ --> starting point of the string
+$ --> Ensures that it is the end of the string.
+comment
+ 
+--------------------------------------------------------------------------------------
+iteration control using the break and continue:
+----------------------------------------------
+break --> It used to break the loop from the current iteration.
+continue--> It is used to skip the current iteration and continue through the loop.
+ 
+break.sh
+--------
+ 
+#!/bin/bash
+ 
+for i in {1..10}
+do
+        if [ $i -eq 5 ]
+        then
+                echo "Breaking the loop"
+                break
+        else
+                echo $i
+        fi
+done
+ 
+continue.sh
+-----------
+#!/bin/bash
+ 
+for i in {1..10}
+do
+        if [ $i -eq 5 ]
+        then
+                echo "skipping the current iteration"
+                continue
+        else
+                echo $i
+        fi
+done
+ 
+-------------------------------------------------------------------------------------------
+Arrays in shell script:
+----------------------
+ 
+Arrays is used to store the multiple values in a single variable.
+name="Bhargav"
+echo ${#name}
+ 
+root@ip-172-31-30-147:~# name="Bhargav"
+root@ip-172-31-30-147:~# echo ${#name)
+> ^C
+root@ip-172-31-30-147:~# echo ${#name}
+7
+root@ip-172-31-30-147:~# name=("Bhargav" "sumati")
+root@ip-172-31-30-147:~# echo ${#name[@]}
+2
+root@ip-172-31-30-147:~#
+ 
+ 
+ 
+array.sh
+--------
+#!/bin/bash
+ 
+fruits=("apple" "banana" "Pomegranate" "Orange" "Pineapple")
+ 
+echo "Length of the array is:"${#fruits[@]}
+ 
+for i in $(seq 0 ${#name[@]})
+do
+        echo ${fruits[i]}
+done
+ 
+ 
+Practical scenario:-
+------------------
+1)Extract the phone numbers with the pattern 123-456-7891
+2) Take the input of phone number as array
+ 
+input=("863-762-123" "123-345-2345")
+phone= ${input[@]}
+ 
+scenario.sh
+-----------
+ 
+echo " Enter the phone numbers using space:"
+ 
+read -a input
+ 
+echo "No of phone numbers:"${#input[@]}
+ 
+for phone in ${input[@]}
+do
+        if [[ $phone =~ ^[0-9]{3}-[0-9]{3}-[0-9]{4}$ ]]
+        then
+                echo "Entered number is correct"
+        else
+                echo "Entered number is incorrect"
+        fi
+done
+ 
+root@ip-172-31-30-147:~# ./scenario.sh
+ Enter the phone numbers using space:
+863-762-0123 123-2345-764
+No of phone numbers:2
+Entered number is correct
+Entered number is incorrect
+root@ip-172-31-30-147:~# vi scenario.sh
+root@ip-172-31-30-147:~# ./scenario.sh
+ Enter the phone numbers using space:
+863-762-0123 123-2345-764
+No of phone numbers:2
+Entered number is correct, the number is 863-762-0123
+Entered number is incorrect, the number is 123-2345-764
+root@ip-172-31-30-147:~#
+ 

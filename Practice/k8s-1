@@ -1,0 +1,42 @@
+kubernetes installation: https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries
+To get image: https://github.com/kubernetes-sigs/kind/releases
+
+start local docker
+
+open gitbash
+kind --version
+
+kubectl version: https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
+kubectl version --client
+
+kind create cluster --image kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f --name cka-cluster1
+
+To get cluster info/switching to cluster
+
+kubectl get nodes
+
+creating multinode cluster
+https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries
+vi config.yml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+
+kind create cluster --image kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f --name cka-cluster2 --config config.yml
+
+we have to join control plane with worker nodes
+
+To get cluster info/switching to cluster
+
+kubectl get nodes
+
+https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/
+To get details about previous cluster
+kubectl config get-contexts
+kubectl config use-context cka-cluster
+kubectl get nodes
+
+

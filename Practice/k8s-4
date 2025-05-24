@@ -1,0 +1,112 @@
+we can use services to make front end available for users
+
+node port:
+exposing app externally using port
+
+kubectl get pod
+
+vi nodeport.yaml
+apiVersion: v1
+kind: service
+metadata:
+  name: nodeport-svc
+  env: demo
+spec:
+  type: NodePort
+  ports:
+     - nodePort: 30001
+       port: 80
+       targetPort: 80
+  selector:
+    matchLabels:
+      env: demo
+
+
+vi kind.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30001
+    hostPort: 30001
+- role: worker
+- role: worker
+
+
+kind create cluster --config kind.yaml --name cka-cluster-new
+
+kubectl get nodes
+
+kubectl apply -f rc.yaml
+
+kubectl get pods
+
+kubectl apply -f nodeport.yaml
+
+kubectl get svc
+kubectl describe svc nodeport-svc
+curl localhost:30001
+
+localhost:30001
+
+kind delete cluster --name cluster-name
+
+
+kubectl create -f nodeport.yml
+
+kubectl get svc
+kubectl get pod -o wide
+kubectl get nodes -o wide
+kubectl describe pod pod-name
+
+ip: 80
+
+
+kubectl explain svc
+
+
+clusterIP
+containers will communicate using ip but if pod goes down or restarts then ip gets changed it's diff to communicate
+we can create svc of cluster ip then front end can communicate with backend app
+
+kubectl get svc
+communication within kubernetes cluster
+
+vi clusterip.yaml
+apiVersion: v1
+kind: service
+metadata:
+  name: nodeport-svc
+  env: demo
+spec:
+  ports:
+     - port: 80
+  selector:
+    matchLabels:
+      env: demo
+
+
+kubectl apply -f clusterip.yaml
+kubectl get svc
+
+kubectl describe svc/cluster-svc
+
+
+lb.yaml
+
+apiVersion: v1
+kind: service
+metadata:
+  name: nodeport-svc
+  env: demo
+spec:
+  type: LoadBalancer
+  ports:
+     - port: 80
+       targetPort: 80
+  selector:
+    matchLabels:
+      env: demo
+
+kubectl apply -f lb.yaml

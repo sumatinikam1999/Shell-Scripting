@@ -1,0 +1,57 @@
+command - imperative
+yaml - declarative
+
+
+kubectl run nginx-pod --image=nginx:latest
+kubectl get pods
+
+
+kubectl explain pod
+
+kubectl create/apply -f pod.yaml
+
+kubectl descri
+
+
+
+
+
+
+
+
+
+be pod-name
+
+kubectl edit pod pod-name
+
+kubectl exec -it nginx-pod -- sh
+
+we can also write a imperative command and output it in yaml file
+
+kubectl run nginx-pod --image=nginx:latest --dry-run=client(it won't apply changes just show chnages)
+
+kubectl run nginx-pod --image=nginx:latest --dry-run=client -o yaml > pod-new.yaml
+
+kubectl describe pod pod-name
+
+kubectl get pod pod-name --show-lables
+
+kubectl get nodes
+on which node pod running 
+kubectl get pods -o wide
+
+labels are helpful for grouping the resources
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    env: test
+spec:
+  containers:
+    - name: nginx-pod
+      image: nginx
+      ports:
+       - containerPort: 80
+

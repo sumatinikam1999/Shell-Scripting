@@ -1,0 +1,121 @@
+Day2 is about argument passing.
+ 
+script.sh
+--------
+ 
+#!/bin/bash
+ 
+ 
+echo " First argument $1 "
+ 
+echo " second argument $2"
+ 
+echo " All arguments $@"
+ 
+echo " all arguments as a single string : '$*' "
+ 
+echo " No of arguments $# "
+ 
+echo " exit code of last command $? "
+ 
+bash script.sh arg1 arg2
+ 
+$0 --> Name of the script.
+$@ --> All arguments passed to the script.
+$# --> Number of arguments passed to the script.
+$* --> Similar to the $@ but it will take all the arguments as the single string.
+$$ --> Prints the current process Id of the shell.
+$? --> Prints exits status of the command.
+    if exit status is 0, then the last command ran is successful.
+    if exit status is other than 0, then the last command ran is unsuccessful.
+ 
+ 
+ 
+----------------------------------------------------------------------------------------------
+get_vpc.sh
+----------
+ 
+#!/bin/bash
+ 
+Regions=$@
+echo "Fetching VPC ID from the $Regions"
+for i in $Regions; do
+    aws ec2 describe-vpcs --region $Regions | jq ".Vpcs[].VpcId" -r | tr '[:lower:]' '[:upper:]'
+done
+ 
+-r will remove double quotes
+tr lower to upper
+
+--------------------------------------------------------------------------------------------------
+ 
+#!/bin/bash
+ 
+if [ $# -gt 0 ]; then
+ 
+    Regions=$@
+ 
+    for region in $Regions; do
+        echo "Fetching the VPC ID for $region"
+        echo "*********************************"
+        aws ec2 describe-vpcs --region ${region} | jq ".Vpcs[].VpcId" -r | tr '[:lower:]' '[:upper:]'
+        echo "**********************************"
+    done
+else
+    echo "you have provided the $# arguments. Please provide atleast one argument"
+fi
+ 
+--------------------------------------------------------------------------------------------------
+ 
+Error Handling
+--------------
+/dev/null is a file which discards everything we write in the file. To supress any error while executing the script you can redirect the error to the /dev/null.
+ 
+2> --> To redirect the error.
+> --> To redirect the output.
+ 
+#!/bin/bash
+ 
+aws --version > /dev/null
+ 
+if [ $? -eq 0 ]; then
+ 
+    if [ $# -gt 0 ]; then
+ 
+        Regions=$@
+ 
+        for region in $Regions; do
+            echo "Fetching the VPC ID for $region"
+            echo "*********************************"
+            aws ec2 describe-vpcs --region ${region} | jq ".Vpcs[].VpcId" -r | tr '[:lower:]' '[:upper:]'
+            echo "**********************************"
+        done
+    else
+        echo "you have provided the $# arguments. Please provide atleast one argument"
+    fi
+else
+    echo " AWS cli is not installed. This is the exit code $?"
+fi
+ 
+-------------------------------------------------------
+ 
+utilize the exit codes to control the script flow.
+------------------------------------------------
+ 
+#!/bin/bash
+ 
+aws --version >/dev/null 2>&1
+ 
+if [ $? -eq 0 ]; then
+    echo " Aws cli is installed properly"
+else
+    echo " Aws cli is not installed properly"
+fi
+ 
+ 
+_______________________________________________________________________
+ 
+1) Add the extension named shell format.
+2) In search bar search the below
+      > open user settings
+      TextEditor > Formatting > check the box format on save
+ 

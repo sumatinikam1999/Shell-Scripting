@@ -1,0 +1,202 @@
+$(date) --> When you are system commands you need to use ().
+${name} --> When you reading variables you need to use {}.
+$name --> It can also be used for reading varibales or printing variables.
+${date} --> It won't print anything.
+root@ip-172-31-91-136:~# echo $date
+ 
+root@ip-172-31-91-136:~# echo $(date)
+Mon Mar 10 17:10:26 UTC 2025
+root@ip-172-31-91-136:~# echo ${date}
+ 
+root@ip-172-31-91-136:~# name=sumathi
+root@ip-172-31-91-136:~# echo $name
+sumathi
+root@ip-172-31-91-136:~# echo ${name}
+sumathi
+ 
+Variables:
+---------
+root@ip-172-31-91-136:~# sentence = "My name is $name"
+sentence: command not found
+root@ip-172-31-91-136:~# sentence="My name is $name"
+root@ip-172-31-91-136:~# echo $name
+sumathi
+root@ip-172-31-91-136:~# echo $sentence
+My name is sumathi
+root@ip-172-31-91-136:~# another_sentence='My name is $name'
+root@ip-172-31-91-136:~# echo $another_sentence
+My name is $name
+ 
+Note:- By seeing the above examples understand the differnece between single and double quotes.
+       If you read the variable in the double quote it will print the variable value on the terminal.
+       If you read the variable in the single quote it will print the varible name itself it won't read the
+       variable value.
+ 
+awk:-
+---
+ 
+It command line tool which is used to process and manipulate the lines of date in the file.
+ 
+Ex:-
+---
+ 
+root@ip-172-31-91-136:~# bash forloop.sh > output.txt
+root@ip-172-31-91-136:~# cat output.txt
+Mon Mar 10 17:34:41 UTC 2025
+Mon Mar 10 17:34:42 UTC 2025
+Mon Mar 10 17:34:43 UTC 2025
+Mon Mar 10 17:34:44 UTC 2025
+Mon Mar 10 17:34:45 UTC 2025
+Mon Mar 10 17:34:46 UTC 2025
+Mon Mar 10 17:34:47 UTC 2025
+Mon Mar 10 17:34:48 UTC 2025
+Mon Mar 10 17:34:49 UTC 2025
+Mon Mar 10 17:34:50 UTC 2025
+root@ip-172-31-91-136:~# cat forloop.sh
+#!/bin/bash
+ 
+for i in {1..10}
+do
+   echo $(date)
+   sleep 1
+done
+root@ip-172-31-91-136:~#
+root@ip-172-31-91-136:~# cat forloop.sh
+#!/bin/bash
+ 
+for i in {1..10}
+do
+   echo $(date)
+   sleep 1
+done
+root@ip-172-31-91-136:~# cat output.txt
+Mon Mar 10 17:34:41 UTC 2025
+Mon Mar 10 17:34:42 UTC 2025
+Mon Mar 10 17:34:43 UTC 2025
+Mon Mar 10 17:34:44 UTC 2025
+Mon Mar 10 17:34:45 UTC 2025
+Mon Mar 10 17:34:46 UTC 2025
+Mon Mar 10 17:34:47 UTC 2025
+Mon Mar 10 17:34:48 UTC 2025
+Mon Mar 10 17:34:49 UTC 2025
+Mon Mar 10 17:34:50 UTC 2025
+root@ip-172-31-91-136:~# awk -F " " '{print $1}' output.txt
+Mon
+Mon
+Mon
+Mon
+Mon
+Mon
+Mon
+Mon
+Mon
+Mon
+root@ip-172-31-91-136:~# awk -F " " '{print $4}' output.txt
+17:34:41
+17:34:42
+17:34:43
+17:34:44
+17:34:45
+17:34:46
+17:34:47
+17:34:48
+17:34:49
+17:34:50
+root@ip-172-31-91-136:~# awk -F " " '{print $4}' output.txt | awk -F " " '{print $1}'
+17:34:41
+17:34:42
+17:34:43
+17:34:44
+17:34:45
+17:34:46
+17:34:47
+17:34:48
+17:34:49
+17:34:50
+root@ip-172-31-91-136:~# awk -F " " '{print $4}' output.txt | awk -F ":" '{print $1}'
+17
+17
+17
+17
+17
+17
+17
+17
+17
+17
+root@ip-172-31-91-136:~#
+root@ip-172-31-91-136:~# awk -F " " '{print $1 $2 $3}' output.txt
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+MonMar10
+root@ip-172-31-91-136:~# awk -F " " '{print $1,$2,$3}' output.txt
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+ 
+ 
+cut :-
+----
+Cut command is also used to extract the specified fields from the lines in the file.
+ 
+root@ip-172-31-91-136:~# cut -d " " -f 1,2,3 output.txt
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+root@ip-172-31-91-136:~# awk -F " " '{print $1,$2,$3}' output.txt
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+root@ip-172-31-91-136:~# awk -F " " '{print $2,$3,$1}' output.txt
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+Mar 10 Mon
+root@ip-172-31-91-136:~# cut -d " " -f 2,3,1 output.txt
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+Mon Mar 10
+ 
+Note:- Using AWK you can extract the data in more advanced way.
+ 
