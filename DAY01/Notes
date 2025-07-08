@@ -5,8 +5,16 @@ Without Shell Scripting
 
 If we want to do anything in Linux it will go through Shell
 
+```
 Python is application inside Linux, but Shell is native scripting of Linux server
+```
+
 Python is also like applying one layer on top of Shell
 
 Automations inside Linux are Internal -> Shell Scripting
 Automations outside Linux are External -> Python
+
+Coding
+1) Programming : Java, Python, Go, NodeJS - Less time, more performance, less resources - data structure, algorithms, design patterns
+2) Scripting : Automation - Instead of Manual Tasks
+
