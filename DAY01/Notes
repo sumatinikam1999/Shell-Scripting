@@ -1,0 +1,12 @@
+Without Shell Scripting
+1) Manual Installations
+2) Time Consuming
+3) Human Error
+
+If we want to do anything in Linux it will go through Shell
+
+Python is application inside Linux, but Shell is native scripting of Linux server
+Python is also like applying one layer on top of Shell
+
+Automations inside Linux are Internal -> Shell Scripting
+Automations outside Linux are External -> Python
