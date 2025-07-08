@@ -5,7 +5,7 @@ It shows **response header and body**.
 `-i` means: Include the HTTP **response headers** in the output.
 Test web endpoints, APIs and service availability from command line.
 
-![alt text](image.png)
+<img src="image.png" alt="curl -I" width="200"/>
 
 ---
 
@@ -16,7 +16,7 @@ It shows only **response header**.
 It uses **HTTP HEAD** request instead of **GET**.
 `-I` means: Fetch the **headers** only.
 
-![alt text](image-1.png)
+<img src="image-1.png" alt="curl -I" width="200"/>
 
 ---
 
@@ -77,7 +77,7 @@ Control system services - start, stop, restart, status
 
 4. journalctl
 ```
-journctl -u user.service -n 50
+journalctl -u user.service -n 50
 ```
 View logs for systemd-managed services, handy for debugging issues.
 
@@ -88,12 +88,12 @@ View logs for systemd-managed services, handy for debugging issues.
 ps aux | grep nginx
 ```
 To list running processes, I use to find rogue and resource intensive processes.
-🧱 Breakdown
-ps: displays current active processes
-a: shows processes for all users
-u: display user/owner of the process
-x: shows all processes, even those which are running in background not attached to any terminal
-grep nginx: filter output to show lines containing nginx
+🧱 **Breakdown**
+- `ps`: displays current active processes
+- `a`: shows processes for all users
+- `u`: display user/owner of the process
+- `x`: shows all processes, even those which are running in background not attached to any terminal
+- `grep` nginx: filter output to show lines containing nginx
 
 ---
 
@@ -123,26 +123,26 @@ Locate files based on name, date, type.
 
 ---
 
-🧱 Breakdown
-find: command to search files and directories
-/var/log: search path
--name ".log": search for files ending with .log
--mtime +7: modified time is more than 7 days ago
+🧱 **Breakdown**
+- `find`: command to search files and directories
+- `/var/log`: search path
+- `-name ".log"`: search for files ending with .log
+- `-mtime +7`: modified time is more than 7 days ago
 
 ---
 
-9. rsysnc
+9. rsync
 ```
 rsync -avz /app/ user@server:/backup/
 ```
 Efficient file syncing and backup, much faster and more reliable than scp for large directories.
 
-🧱 Breakdown
-rsync: Tool to sync files and directories
--a: archieve mode(preserves permissions, timestamps and symbolic links)
--v: verbose(show what's happening)
--z: compress data during transfer for faster transmission
-/app/: source directoy(copy content only not folder)
-user@server:/backup/: remote destination
+🧱 **Breakdown**
+- `rsync`: Tool to sync files and directories
+- `-a`: archive mode(preserves permissions, timestamps and symbolic links)
+- `-v`: verbose(show what's happening)
+- `-z`: compress data during transfer for faster transmission
+- `/app/`: source directory(copy content only not folder)
+- `user@server:/backup/`: remote destination
 
 ---
