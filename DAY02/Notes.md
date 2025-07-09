@@ -49,3 +49,6 @@ changing url
 
 - bash : shell
 - sh script-name.sh
+
+### Variables
+DRY - Don't repeat yourself
