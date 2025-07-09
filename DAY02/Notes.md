@@ -68,3 +68,12 @@ person=$1, it will take argument one value sh scriptname.sh Sumati. </br>
 
 `read`: It takes input from user
 `read -s`: If you don't want to show entered details in terminal
+
+`In shell, we don't have to mention data type explicitly`
+
+1. number is a general data type
+2. boolean 0 and 1
+   0 - failure
+   1 - success
+3. array - it can hold multiple values
+
