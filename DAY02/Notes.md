@@ -66,3 +66,4 @@ person=$1, it will take argument one value sh scriptname.sh Sumati. </br>
 * To run system commands in shell script
 `DATE=$(date)` -> Shell script will run command inside $() and stores output in DATE </br>
 
+`read`: It takes input from user
