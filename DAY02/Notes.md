@@ -30,16 +30,16 @@ We should use source code management system for
 
 #### SSH Authentication to GitHub
 1. Import the public key in github server </br>
-2. .ssh folder uin user directory
-       create a file called configno extensions like config.txt
+2. .ssh folder uin user directory </br>
+       create a file called configno extensions like config.txt </br>
 
-If you have existing folder, how can you psuh to GitHub
+If you have existing folder, how can you psuh to GitHub </br>
 1. Git init
 2. Create repo in github server
 3. Connect git local repo and central repo through 
-       `git remote add origin <use-ssh-url>`
+       `git remote add origin <use-ssh-url>` </br>
 
-changing url
+changing url </br>
 `git remote set-url <use-http-url>`
 
 ---
@@ -51,4 +51,18 @@ changing url
 - sh script-name.sh
 
 ### Variables
-DRY - Don't repeat yourself
+DRY - Don't repeat yourself. </br>
+
+* Instead of defining values inside the script directly you can follow:
+person=Sumati and you can use it in script like $person so if you want to change person name you just have to change it once where you have defined. </br>
+
+* we can pass values as arguments also while running script, so in script define
+person=$1, it will take argument one value sh scriptname.sh Sumati. </br>
+
+1. declaring inside the script 
+2. how to execute a command inside shell script and get the output
+3. you can always get the values of variables from command line
+
+* To run system commands in shell script
+`DATE=$(date)` -> Shell script will run command inside $() and stores output in DATE </br>
+
