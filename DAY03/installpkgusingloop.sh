@@ -11,6 +11,7 @@ VALIDATE(){
             echo "$2 $R Failure $N"
     else
             echo "$2 $G Success $N"
+    fi
 }
 #all arguments are in $@
 for i in $@
