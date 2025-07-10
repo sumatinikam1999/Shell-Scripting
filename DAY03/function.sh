@@ -8,9 +8,9 @@ VALIDATE() {
  # $2 it will receive argument2
 if [ $1 -ne 0 ] 
        then
-           echo "Installation failure"
+           echo "$2 failure"
 else
-           echo "Installation success"
+           echo "$2 success"
 fi
     }
 if [ $USERID -ne 0 ]
@@ -21,8 +21,8 @@ fi
 
 yum install git -y
 
-VALIDATE $?
+VALIDATE $? "Installing Git"
 
 yum install postfix -y
 
-VALIDATE $?
+VALIDATE $? "Installing postfix"
