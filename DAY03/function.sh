@@ -13,8 +13,7 @@ else
            echo "Installation success"
 fi
 }
-    
-}
+    }
 if [ $USERID -ne 0 ]
     then
        echo "ERROR: Please run script with roo user"
