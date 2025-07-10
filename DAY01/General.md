@@ -87,7 +87,7 @@ View logs for systemd-managed services, handy for debugging issues.
 ```
 ps aux | grep nginx
 ```
-To list running processes, I use to find rogue and resource intensive processes.
+To list running processes, I use to find rogue and resource intensive processes. </br>
 🧱 **Breakdown**
 - `ps`: displays current active processes
 - `a`: shows processes for all users
@@ -135,7 +135,7 @@ Locate files based on name, date, type.
 ```
 rsync -avz /app/ user@server:/backup/
 ```
-Efficient file syncing and backup, much faster and more reliable than scp for large directories.
+Efficient file syncing and backup, much faster and more reliable than scp for large directories. </br>
 
 🧱 **Breakdown**
 - `rsync`: Tool to sync files and directories
