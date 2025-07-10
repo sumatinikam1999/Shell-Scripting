@@ -1,5 +1,6 @@
 #!/bin/bash
 
+NUMBER=$1
 #check number is greated than 10
 if [ $NUMBER -gt 10 ]
   then
