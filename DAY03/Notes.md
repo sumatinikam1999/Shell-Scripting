@@ -24,3 +24,10 @@ install mysql
 3. If root user install mysql
 root user id -u -> 0
 normal user id -u -> not 0
+
+Shell script by default it will not stop if is faces error, it is our responsibility to check for the error
+
+exit status
+$? -> stores previous command status
+$? -> 0 -> previous command is success
+$? -> not 0 -> previous command is failure

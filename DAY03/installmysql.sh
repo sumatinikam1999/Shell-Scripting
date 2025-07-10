@@ -5,6 +5,7 @@ USERID=$(id -u)
 if [ $USERID -ne 0 ]
     then
        echo "ERROR: Please run script with roo user"
+       exit 1
 fi
 
-yum install mysql -y
+yum install git -y
