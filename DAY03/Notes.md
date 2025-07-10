@@ -31,3 +31,15 @@ exit status
 $? -> stores previous command status
 $? -> 0 -> previous command is success
 $? -> not 0 -> previous command is failure
+
+Functions
+you will keep some code inside function which is more often required, and call whenever you require
+functions will do some work on behalf of us and it will update what happened
+
+FUNCTION_NAME() {
+    here you write your functions and call whereever required
+}
+
+FUNCTION_NAME
+
+functions always needs input, then function will give output

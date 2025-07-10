@@ -2,6 +2,19 @@
 
 #program to install mysql
 USERID=$(id -u)
+#this function should validate previous command and inform user it's success or failure
+VALIDATE() {
+ # $1 it will receive argument1
+ # $2 it will receive argument2
+if [ $1 -ne 0 ] {
+       then
+           echo "Installation failure"
+else
+           echo "Installation success"
+fi
+}
+    
+}
 if [ $USERID -ne 0 ]
     then
        echo "ERROR: Please run script with roo user"
@@ -10,21 +23,8 @@ fi
 
 yum install git -y
 
-if [ $? -ne 0 ]
-    then
-       echo "Installation Failure"
-       exit 1
-else
-       echo "Installation is success"
-fi
+VALIDATE $?
 
 yum install postfix -y
 
-if [ $? -ne 0 ]
-     then
-        echo "Installation of postfix is error"
-else
-        echo "Installation of postfix is success"
-fi
-
-#same code is getting repeated here
+VALIDATE $?
