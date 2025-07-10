@@ -2,12 +2,22 @@
 DATE=$(date +%F)
 SCRIPT_NAME=$0
 LOGFILE=/tmp/$SCRIPT_NAME-$DATE.log
+R="\e[31m"
+G="\e[32m"
+N="\e[0"
+VALIDATE(){
+    if [ $1 -ne 0 ]
+          then
+            echo "$2 $R Failure $N"
+    else
+            echo "$2 $G Success $N"
+}
 #all arguments are in $@
 for i in $@
 do
  yum install $i -y &>> $LOGFILE
 done
-
+VALIDATE $? "Installing $@"
 #improvemnts
 #implement log file
 #implement colors
