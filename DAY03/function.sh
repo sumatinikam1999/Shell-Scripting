@@ -6,13 +6,12 @@ USERID=$(id -u)
 VALIDATE() {
  # $1 it will receive argument1
  # $2 it will receive argument2
-if [ $1 -ne 0 ] {
+if [ $1 -ne 0 ] 
        then
            echo "Installation failure"
 else
            echo "Installation success"
 fi
-}
     }
 if [ $USERID -ne 0 ]
     then
