@@ -43,3 +43,21 @@ FUNCTION_NAME() {
 FUNCTION_NAME
 
 functions always needs input, then function will give output
+
+Log files are always important to know what happened
+
+Redirection
+```
+ls -l 1> ls.log
+ls -l > ls.log
+```
+
+> -> it will only redirect only success output
+1 -> success (1> or > both are same)
+2 -> failure
+ls -l &> ls.log -> success or failure
+lss -l &> ls.log -> success or failure
+> -> it will remove previous content and adds new content
+>> -> it will not remove it will append
+
+date +%F-%H-%M-%S
