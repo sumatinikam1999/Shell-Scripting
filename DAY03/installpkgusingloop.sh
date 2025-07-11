@@ -22,13 +22,14 @@ do
  if [ $? -ne 0 ]
  then
  yum install $i -y &>> $LOGFILE
+ 
  VALIDATE $? "Installing $i"
  else
  echo -e "$Y...$i is already installed..$N"
  fi
 done
 
-#improvemnts
+#improvements
 #implement log file
 #implement colors
 #implement validations
