@@ -18,13 +18,13 @@ VALIDATE(){
 #all arguments are in $@
 for i in $@
 do
- yum list installed $i &>> $LOGFILE
+ yum list installed $@ &>> $LOGFILE
  if [ $? -ne 0 ]
  then
- yum install $i -y &>> $LOGFILE
- VALIDATE $? "Installing $i"
+ yum install $@ -y &>> $LOGFILE
+ VALIDATE $? "Installing $@"
  else
- echo -e "$Y...$i is already installed..$N"
+ echo -e "$Y...$@ is already installed..$N"
  fi
 done
 
