@@ -1,9 +1,9 @@
 ```
 curl -i
 ```
-It shows **response header and body**.
-`-i` means: Include the HTTP **response headers** in the output.
-Test web endpoints, APIs and service availability from command line.
+- It shows **response header and body**.
+- `-i` means: Include the HTTP **response headers** in the output.
+- Test web endpoints, APIs and service availability from command line.
 
 <img src="image.png" alt="curl -I" width="200"/>
 
@@ -12,12 +12,19 @@ Test web endpoints, APIs and service availability from command line.
 ```
 curl -I
 ```
-It shows only **response header**.
-It uses **HTTP HEAD** request instead of **GET**.
-`-I` means: Fetch the **headers** only.
+- It shows only **response header**.
+- It uses **HTTP HEAD** request instead of **GET**.
+- `-I` means: Fetch the **headers** only.
 
 <img src="image-1.png" alt="curl -I" width="200"/>
 
+---
+
+- If you have and existing folder in Github how you can push code to Github
+```
+git init
+git remote add origin url
+```
 ---
 
 ### **How DNS works??**
@@ -109,7 +116,7 @@ Essential for disk space monitoring and clearning large files or folders.
 7. chmod / chown
 ```
 chmod +x file.sh
-chown user:user file.sh
+chown user:group file.sh
 ```
 Manages file permissions and ownership
 
@@ -146,3 +153,16 @@ Efficient file syncing and backup, much faster and more reliable than scp for la
 - `user@server:/backup/`: remote destination
 
 ---
+
+### SSH Authentication to Github server
+1. import public key in github server
+2. create a file called config in .ssh folder inside user directory
+
+- follow the below syntax
+
+```
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/devops.pem
+```
