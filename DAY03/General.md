@@ -37,7 +37,7 @@ docker system prune -a  #Remove unused containers/images
 ✅**Step 5:**
 - Consider Moving or Archiving Data:
 If data in `/var` needed but rarely accessed.
-```
+
 - Archieve old logs to `/home` or S3
 - Use `logrotate` to compress and limit logs
 `sudo nano /etc/logrotate.conf`
@@ -47,11 +47,12 @@ If data in `/var` needed but rarely accessed.
 - Instal `ncdu`, 'duf`, or setup Prometheus or Grafana alerts for disk usage thresholds
 - Automcate cleanup with cron or systemd timers if appropriate
 
-🧠**Why /var Fills Up**
+
+### 🧠 **Why /var Fills Up**
 - Verbose logging(failed cron jobs, app debug logs)
 - Docker images/layers
 - Orphaned cache files
 - Emails spools or crash dumps 
 
-
 `Summary: Quickly spin, clean and automate monitoring. Ensure critical services like journald, docker and package managers are not starved of space.`
+
