@@ -8,7 +8,7 @@
 ✅**Step 1:**
 - Inspect disk usage under /var
 `sudo du -sh /var/* | sort -hr | head -10`
-This will show which directories inside /var consuming more space - usually it's /var/logs, /var/cache, or /var/lib/docker
+This will show which directories inside /var consuming more space - usually it's /var/logs, /var/cache, or /var/lib/docker </br>
 
 ✅**Step 2:**
 - Clean Log Files
@@ -32,7 +32,7 @@ If the server runs containers:
 docker system df        #See what's taking space
 docker system prune -a  #Remove unused containers/images
 ```
-⚠️ **Prune removes unused images/volumes user carefully on production system**
+⚠️ **Prune removes unused images/volumes user carefully on production system** </br>
 
 ✅**Step 5:**
 - Consider Moving or Archiving Data:
@@ -47,10 +47,11 @@ If data in `/var` needed but rarely accessed.
 - Instal `ncdu`, 'duf`, or setup Prometheus or Grafana alerts for disk usage thresholds
 - Automcate cleanup with cron or systemd timers if appropriate
 
-## 🧠**Why /var Fills Up**
+🧠**Why /var Fills Up**
 - Verbose logging(failed cron jobs, app debug logs)
 - Docker images/layers
 - Orphaned cache files
-- Emails spools or crash dumps
+- Emails spools or crash dumps 
 
-**** Summary: Quickly spin, clean and automate monitoring. Ensure critical services like journald, docker and package managers are not starved of space. ****
+
+`Summary: Quickly spin, clean and automate monitoring. Ensure critical services like journald, docker and package managers are not starved of space.`
