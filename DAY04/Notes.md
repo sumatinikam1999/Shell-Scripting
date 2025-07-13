@@ -84,3 +84,25 @@ echo "This is a test email from Amazon Linux" | mailx -s "Test Mail" sumatinikam
 
 ---
 
+For Shell script:
+Stream line editor(sed)
+temporary editor
+if you want permanent then use -i option instead or -e
+
+CRUD
+creation of line
+updation of line
+deletion of line
+
+#adding text after line 1
+sed -e '1 a Good Morning' Passwd 
+#adding text before line 1
+sed -e '1 i Good Morning' Passwd 
+#this will replace first occurance in every line
+sed -e 's/<word-to-find>/<word-to-replace>' <file-name>
+#if you want to replace all the ocurances then use g, g for global
+sed -e 's/<word-to-find>/<word-to-replace>/g' <file-name>
+#delete
+sed -e '/<word-to-delete/ d' <file-name>
+
+

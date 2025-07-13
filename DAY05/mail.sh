@@ -8,4 +8,8 @@ BODY=$3
 TEMA_NAME=$4
 ALERT_TYPE=$5
 
-echo "all args: $@"
+#echo "all args: $@"
+
+# $ will work in double quote not single quote
+FINAL_BODY=$(sed -e 's/TEAM_NAME/DevOps Team/g' -e 's/ALERT_TYPE/High Disk Usgae/g' -e "s/MESSAGE/$BODY" template.html)
+echo "$FINAL_BODY" | mailx -s "$SUBJECT" $TO_ADDRESS 
