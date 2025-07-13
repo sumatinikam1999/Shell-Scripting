@@ -41,7 +41,7 @@ do
   if [ $usage -gt $DISK_USAGE_THRESHOLD ];
   then
   # + here means append to previous message
-  message+="HIGH Disk Usage on $partition: $usage \n"
+  message+="HIGH Disk Usage on $partition: $usage\n"
   fi
 done <<< $DISK_USAGE
 
