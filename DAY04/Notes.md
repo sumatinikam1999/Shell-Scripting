@@ -73,12 +73,12 @@ set smtp-use-starttls
 set ssl-verify=ignore
 set smtp=smtp://smtp.gmail.com:587
 set smtp-auth=login
-set smtp-auth-user=your-email@gmail.com
-set smtp-auth-password=*********
-set from="your-email@gmail.com"
+set smtp-auth-user=sumatinikam1999@gmail.com
+set smtp-auth-password=mlrdhbzalatbieni
+set from="sumatinikam1999@gmail.com"
 
 add password to login from applications
-mlrd hbza latb ieni
+mlrdhbzalatbieni
 echo "This is a test email from Amazon Linux" | mailx -s "Test Mail" sumatinikam1999@gmail.com
 ```
 
