@@ -14,4 +14,4 @@ ALERT_TYPE=$5
 
 # $ will work in double quote not single quote
 FINAL_BODY=$(sed -e "s/TEAM_NAME/$TEAM_NAME/g" -e "s/ALERT_TYPE/$ALERT_TYPE/g" -e "s/MESSAGE/$BODY/g" template.html)
-echo "$FINAL_BODY" | mailx -s "$(echo "$SUBJECT\nContent-Type: text/html")" $TO_ADDRESS 
+echo "$FINAL_BODY" | mailx -s "$(echo "$SUBJECT\nContent-Type: text/html")" "$TO_ADDRESS"
