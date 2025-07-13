@@ -48,4 +48,4 @@ done <<< $DISK_USAGE
 #echo "$message" | mailx -s "High Disk usage" sumatinikam1999@gmail.com
 
 #how to call other scripts from your current script
-sh mail.sh sumatinikam1999@gmail.com "High Disk Usage" "$message" $DEVOPS TEAM" "HIGH Disk Usage"
+sh mail.sh sumatinikam1999@gmail.com "High Disk Usage" "$message" "$DEVOPS TEAM" "HIGH Disk Usage"
