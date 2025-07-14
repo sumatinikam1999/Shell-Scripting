@@ -33,7 +33,8 @@ VALIDATE $? "Downloading"
 #cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> $LOGFILE
 #VALIDATE $? "Copying"
 
-dnf install rabbitmq-server -y &>> $LOGFILE
+dnf install rabbitmq-server --nogpgcheck -y &>> $LOGFILE
+
 VALIDATE $? "Installing"
 
 systemctl enable rabbitmq-server &>> $LOGFILE
