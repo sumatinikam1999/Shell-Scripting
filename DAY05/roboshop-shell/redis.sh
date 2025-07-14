@@ -39,7 +39,7 @@ sudo yum install redis -y &>> $LOGFILE
 
 VALIDATE $? "Installing Redis"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf  &>> $LOGFILE
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf  &>> $LOGFILE
 
 VALIDATE $? "Replacing 127.0.0.1 with 0.0.0.0"
 
