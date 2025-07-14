@@ -35,15 +35,18 @@ VALIDATE(){
 #VALIDATE $? "Downloading"
 
 # Step 1: Install Erlang (dependency)
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOGFILE
-VALIDATE $? "Adding Erlang repo"
+#curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOGFILE
+#VALIDATE $? "Adding Erlang repo"
 
-dnf install -y erlang &>>$LOGFILE
-VALIDATE $? "Installing Erlang"
+#dnf install -y erlang &>>$LOGFILE
+#VALIDATE $? "Installing Erlang"
+
+#dnf install -y https://github.com/rabbitmq/erlang-rpm/releases/download/v26.2.1/erlang-26.2.1-1.el9.x86_64.rpm
 
 # Step 2: Install RabbitMQ repo
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOGFILE
-VALIDATE $? "Adding RabbitMQ repo"
+#curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOGFILE
+#VALIDATE $? "Adding RabbitMQ repo"
+dnf install -y https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.11/rabbitmq-server-3.12.11-1.el9.noarch.rpm
 
 # Step 3: Install RabbitMQ
 dnf install -y rabbitmq-server &>>$LOGFILE
