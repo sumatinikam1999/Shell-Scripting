@@ -10,3 +10,6 @@ The id "roboshop" command checks if the roboshop user exists. If the user exists
 By redirecting the output to /dev/null with >/dev/null, we throw away both the success output and any error messages, so they don't clutter the terminal or interfere with the script.
 The 2&>1 part redirects error messages to the same place as standard output, which is already going to /dev/null. This ensures all output(success or error)is silenced.
 
+#troubleshoot to check other side server is accessible or not
+telnet  IP port
+user->redis

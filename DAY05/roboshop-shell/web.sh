@@ -26,3 +26,21 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+yum install nginx -y
+
+systemctl enable nginx
+
+systemctl start nginx
+
+rm -rf /usr/share/nginx/html/*
+
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+
+cd /usr/share/nginx/html
+
+unzip /tmp/web.zip
+
+cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf 
+
+systemctl restart nginx 
