@@ -124,7 +124,7 @@ VALIDATE $? "Move to Mongosh directory"
 VALIDATE $? "Check mongosh version"
 
 # ~ here means current users home directory /home/ec2-user/mongosh-2.5.5-linux-x64/bin/
-cd ~/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
+cd /home/ec2-user/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
 
 VALIDATE $? "Move to mongosh-2.5.5-linux-x64/bin"
 
