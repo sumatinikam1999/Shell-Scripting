@@ -28,19 +28,19 @@ VALIDATE(){
 }
 
 #yum install nginx -y &>> $LOGFILE
-amazon-linux-extras enable nginx1 -y &>> $LOGFILE
+amazon-linux-extras enable nginx1  &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
-systemctl enable nginx1 &>> $LOGFILE
+systemctl enable nginx &>> $LOGFILE
 
 VALIDATE $? "Enabling nginx"
 
-systemctl start nginx1 &>> $LOGFILE
+systemctl start nginx &>> $LOGFILE
 
 VALIDATE $? "Starting nginx"
 
-rm -rf /usr/share/nginx1/html/* &>> $LOGFILE
+rm -rf /usr/share/nginx/html/* &>> $LOGFILE
 
 VALIDATE $? "Removing default website"
 
@@ -48,7 +48,7 @@ curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFI
 
 VALIDATE $? "Downloading web artifact"
 
-cd /usr/share/nginx1/html &>> $LOGFILE
+cd /usr/share/nginx/html &>> $LOGFILE
 
 VALIDATE $? "Moving to default HTML directory"
 
@@ -56,10 +56,10 @@ unzip /tmp/web.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping web artifact"
 
-cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx1/default.d/roboshop.conf  &>> $LOGFILE
+cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>> $LOGFILE
 
 VALIDATE $? "copying roboshop config" 
 
-systemctl restart nginx1  &>> $LOGFILE
+systemctl restart nginx  &>> $LOGFILE
 
 VALIDATE $? "Restarting nginx"
