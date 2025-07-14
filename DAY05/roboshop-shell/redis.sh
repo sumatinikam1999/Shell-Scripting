@@ -26,3 +26,37 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>> $LOGFILE
+
+VALIDATE $? "Installing Redis repo"
+
+Install Redis &>> $LOGFILE
+
+VALIDATE $? "Installing Redis"
+
+sudo amazon-linux-extras enable redis6 &>> $LOGFILE
+
+VALIDATE $? "Installing Redis6"
+
+sudo yum clean metadata &>> $LOGFILE
+
+VALIDATE $? "Clean metadata"
+
+sudo yum install redis -y &>> $LOGFILE
+
+VALIDATE $? "Installing Redis"
+
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf /etc/redis/redis.conf &>> $LOGFILE
+
+VALIDATE $? "Replacing 127.0.0.1 with 0.0.0.0"
+
+sudo systemctl start redis &>> $LOGFILE
+
+VALIDATE $? Starting redis"
+
+sudo systemctl enable redis &>> $LOGFILE
+
+VALIDATE $? "Enabling redis" 
+
+
