@@ -27,10 +27,6 @@ VALIDATE(){
     fi
 }
 
-yum module disable mysql -y &>> $LOGFILE
-
-VALIDATE $? "Disabling version"
-
 cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
 
 VALIDATE $? "copying mysql repo"
