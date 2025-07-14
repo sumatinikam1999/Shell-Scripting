@@ -120,21 +120,20 @@ VALIDATE $? "Move"
 mv bin/mongosh /bin/mongosh
 VALIDATE $? "Move"
 
-
-./bin/mongosh --version &>> $LOGFILE
+mongosh --version &>> $LOGFILE
 
 VALIDATE $? "Check mongosh version"
 
 # ~ here means current users home directory /home/ec2-user/mongosh-2.5.5-linux-x64/bin/
-cd ~/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
+#cd ~/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
 
-VALIDATE $? "Move to mongosh-2.5.5-linux-x64/bin"
+#VALIDATE $? "Move to mongosh-2.5.5-linux-x64/bin"
 
-./mongosh &>> $LOGFILE
+#./mongosh &>> $LOGFILE
 
-VALIDATE $? "Run Mongosh"
+#VALIDATE $? "Run Mongosh"
 
-~/mongosh-2.5.5-linux-x64/bin/mongosh --host 3.108.217.144 < /app/schema/catalogue.js &>> $LOGFILE
+mongosh --host 3.108.217.144 < /app/schema/catalogue.js &>> $LOGFILE
 
 VALIDATE $? "Moving to /app directory"
 
