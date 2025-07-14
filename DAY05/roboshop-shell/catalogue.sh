@@ -111,7 +111,7 @@ wget https://downloads.mongodb.com/compass/mongosh-2.5.5-linux-x64.tgz &>> $LOGF
 
 VALIDATE $? "Download mongosh"
 
-tar -xvzf mongosh-2.5.5-linux-x64.tgz &>> $LOGFILE
+tar -xvzf mongosh-2.5.5-linux-x64.tgz -C ~/ &>> $LOGFILE
 
 VALIDATE $? "Untar Mongosh"
 
@@ -124,7 +124,7 @@ VALIDATE $? "Move to Mongosh directory"
 VALIDATE $? "Check mongosh version"
 
 # ~ here means current users home directory /home/ec2-user/mongosh-2.5.5-linux-x64/bin/
-cd /home/ec2-user/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
+cd ~/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
 
 VALIDATE $? "Move to mongosh-2.5.5-linux-x64/bin"
 
