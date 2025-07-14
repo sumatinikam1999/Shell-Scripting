@@ -91,7 +91,7 @@ systemctl start shipping &>> $LOGFILE
 
 VALIDATE $? "starting shipping"
 
-yum install mysql -y &>> $LOGFILE
+dnf install mariadb105 -y &>> $LOGFILE
 
 VALIDATE $? "Installing mysql client"
 
