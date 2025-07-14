@@ -3,7 +3,6 @@ DATE=$(date +%F:%H:%M:%S)
 LOG_DIR=/tmp
 SCRIPT_NAME=$0
 LOGFILE=$LOG_DIR/$SCRIPT_NAME-$DATE.log
-SCRIPT_DIR="$(dirname "$(readlin -f "$0")")"
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
@@ -62,11 +61,13 @@ VALIDATE $? "Installing NodeJS"
 #useradd roboshop 
 VALIDATE_Roboshop $? "Checking whether roboshop user created or not, if not then create user"
 
+cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+
+VALIDATE $? "Copying catalogue.service"
+
 #write a condition directory already exists or not
 #mkdir /app &>> $LOGFILE
 VALIDATE_DIR $? "Checking directory exists or not, if not then create directory"
-
-VALIDATE $? "Creating directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
 
@@ -88,11 +89,11 @@ npm install  &>> $LOGFILE
 
 VALIDATE $? "Installing dependencies"
 
-cd
+#cd
 #give full path of catalogue.service because we are inside /app
-cp "$SCRIPT_DIR/catalogue.service" /etc/systemd/system/catalogue.service &>> $LOGFILE
+#cp "$SCRIPT_DIR/catalogue.service" /etc/systemd/system/catalogue.service &>> $LOGFILE
 
-VALIDATE $? "Copying catalogue.service"
+#VALIDATE $? "Copying catalogue.service"
 
 systemctl daemon-reload &>> $LOGFILE
 
