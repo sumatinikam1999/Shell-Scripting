@@ -61,13 +61,11 @@ VALIDATE $? "Installing NodeJS"
 #useradd roboshop 
 VALIDATE_Roboshop $? "Checking whether roboshop user created or not, if not then create user"
 
-cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
-
-VALIDATE $? "Copying catalogue.service"
-
 #write a condition directory already exists or not
 #mkdir /app &>> $LOGFILE
 VALIDATE_DIR $? "Checking directory exists or not, if not then create directory"
+
+VALIDATE $? "Creating directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
 
@@ -89,11 +87,10 @@ npm install  &>> $LOGFILE
 
 VALIDATE $? "Installing dependencies"
 
-#cd
 #give full path of catalogue.service because we are inside /app
-#cp "$SCRIPT_DIR/catalogue.service" /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /home/ec2-user/Shell-scripting/DAY05/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
-#VALIDATE $? "Copying catalogue.service"
+VALIDATE $? "Copying catalogue.service"
 
 systemctl daemon-reload &>> $LOGFILE
 
@@ -108,16 +105,21 @@ systemctl start catalogue &>> $LOGFILE
 VALIDATE $? "Start catalogue"
 
 wget https://downloads.mongodb.com/compass/mongosh-2.5.5-linux-x64.tgz &>> $LOGFILE
-
 VALIDATE $? "Download mongosh"
-
-tar -xvzf mongosh-2.5.5-linux-x64.tgz -C ~/ &>> $LOGFILE
-
+tar -xvzf mongosh-2.5.5-linux-x64.tgz &>> $LOGFILE
 VALIDATE $? "Untar Mongosh"
-
 cd mongosh-2.5.5-linux-x64/ &>> $LOGFILE
-
 VALIDATE $? "Move to Mongosh directory"
+
+curl -o mongosh.tgz https://downloads.mongodb.com/compass/mongosh-2.5.5-linux-x64.tgz
+VALIDATE $? "Download mongosh"
+tar -xvzf mongosh.tgz
+VALIDATE $? "Untar Mongosh"
+cd mongosh-2.5.5-linux-x64
+VALIDATE $? "Move"
+mv bin/mongosh /bin/mongosh
+VALIDATE $? "Move"
+
 
 ./bin/mongosh --version &>> $LOGFILE
 
