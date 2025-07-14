@@ -7,7 +7,7 @@ R="\e[31m"
 G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
-
+SCRIPT_DIR="$(dirname "$(readlin -f "$0")")"
 USERID=$(id -u)
 #this function should validate previous command and inform user it's success or failure
 
@@ -89,7 +89,7 @@ VALIDATE $? "Installing dependencies"
 
 cd
 #give full path of catalogue.service because we are inside /app
-cp /home/ec2-user/Shell-scripting/DAY05/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? "Copying catalogue.service"
 
