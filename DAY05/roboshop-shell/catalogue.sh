@@ -88,8 +88,7 @@ npm install  &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 
 #give full path of catalogue.service because we are inside /app
-
-cp /app/catalogue.service /etc/systemd/system/ &>> $LOGFILE
+cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? "Copying catalogue.service"
 
