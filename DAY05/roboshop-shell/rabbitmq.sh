@@ -27,16 +27,12 @@ VALIDATE(){
     fi
 }
 
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> $LOGFILE
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOGFILE
+
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOGFILE
+
+yum install rabbitmq-server -y  &>>$LOGFILE
 VALIDATE $? "Downloading"
-
-#cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> $LOGFILE
-#VALIDATE $? "Copying"
-
-#dnf install rabbitmq-server --nogpgcheck -y &>> $LOGFILE
-dnf install -y https://github.com/rabbitmq/erlang-rpm/releases/download/v26.2.1/erlang-26.2.1-1.el9.x86_64.rpm https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.13.1/rabbitmq-server-3.13.1-1.el9.noarch.rpm &>> $LOGFILE
-
-VALIDATE $? "Installing"
 
 systemctl enable rabbitmq-server &>> $LOGFILE
 VALIDATE $? "Enabling"
