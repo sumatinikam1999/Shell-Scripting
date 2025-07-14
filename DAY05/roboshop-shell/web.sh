@@ -32,6 +32,16 @@ amazon-linux-extras enable nginx1  &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
+# Clean metadata and install nginx
+yum clean metadata &>> $LOGFILE
+
+VALIDATE $? "Cleaning yum metadata"
+
+yum install nginx -y &>> $LOGFILE
+
+VALIDATE $? "Installing nginx"
+
+
 systemctl enable nginx &>> $LOGFILE
 
 VALIDATE $? "Enabling nginx"
