@@ -30,8 +30,8 @@ VALIDATE(){
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> $LOGFILE
 VALIDATE $? "Downloading"
 
-cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> $LOGFILE
-VALIDATE $? "Copying"
+#cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> $LOGFILE
+#VALIDATE $? "Copying"
 
 dnf install rabbitmq-server -y &>> $LOGFILE
 VALIDATE $? "Installing"
