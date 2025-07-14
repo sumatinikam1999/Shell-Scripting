@@ -61,6 +61,9 @@ VALIDATE $? "Downloading"
 cd /app  &>> $LOGFILE
 VALIDATE $? "Moving"
 
+unzip /tmp/payment.zip &>>$LOGFILE
+VALIDATE $? "unzip artifact"
+
 sudo dnf install -y python3-pip &>> $LOGFILE
 VALIDATE $? "Installing python3"
 
