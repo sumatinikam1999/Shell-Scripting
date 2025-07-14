@@ -88,8 +88,8 @@ npm install  &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 
 #give full path of catalogue.service because we are inside /app
-cd /home/ec2-user/
-cp Shell-scripting/DAY05/roboshop-shell/catalogue.service /etc/systemd/system/ &>> $LOGFILE
+
+cp /app/catalogue.service /etc/systemd/system/ &>> $LOGFILE
 
 VALIDATE $? "Copying catalogue.service"
 
