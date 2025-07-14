@@ -26,3 +26,113 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+VALIDATE_Roboshop(){
+#Check if the roboshop user exists
+if id "roboshop" >/dev/null 2>&1; then
+        echo "user already exists"
+else
+        useradd roboshop
+        echo "user roboshop created"
+fi
+}
+
+VALIDATE_DIR(){
+#Check if the /app directory exists or not
+if [ -d "/app" ]; then
+        echo "directory already exists"
+else
+        mkdir /app
+        echo "directory /app created"
+fi
+}
+
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> $LOGFILE
+
+VALIDATE $? "Setting up NPM Source" 
+
+yum install nodejs -y &>> $LOGFILE
+
+VALIDATE $? "Installing NodeJS"
+
+#once the user is created, if you run this script second time
+#this command will fail
+#Improvements: first check the user already exist or not if not exist then create
+#useradd roboshop 
+VALIDATE_Roboshop $? "Checking whether roboshop user created or not, if not then create user"
+
+#write a condition directory already exists or not
+#mkdir /app &>> $LOGFILE
+VALIDATE_DIR $? "Checking directory exists or not, if not then create directory"
+
+VALIDATE $? "Creating directory"
+
+curl -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LOGFILE
+
+VALIDATE $? "Downloading app code"
+
+cd /app  >> $LOGFILE
+
+VALIDATE $? "Moving to /app directory"
+
+unzip /tmp/user.zip &>> $LOGFILE
+
+VALIDATE $? "Unzip File"
+
+cd /app &>> $LOGFILE
+
+VALIDATE $? "Moving to /app directory"
+
+npm install  &>> $LOGFILE
+
+VALIDATE $? "Installing dependencies"
+
+#give full path of user.service because we are inside /app
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/user.service /etc/systemd/system/user.service &>> $LOGFILE
+
+VALIDATE $? "Copying user.service"
+
+systemctl daemon-reload &>> $LOGFILE
+
+VALIDATE $? "Running daemon reload"
+
+systemctl enable user &>> $LOGFILE
+
+VALIDATE $? "Enabling user"
+
+systemctl start user &>> $LOGFILE
+
+VALIDATE $? "Start user"
+
+wget https://downloads.mongodb.com/compass/mongosh-2.5.5-linux-x64.tgz &>> $LOGFILE
+VALIDATE $? "Download mongosh"
+tar -xvzf mongosh-2.5.5-linux-x64.tgz &>> $LOGFILE
+VALIDATE $? "Untar Mongosh"
+cd mongosh-2.5.5-linux-x64/ &>> $LOGFILE
+VALIDATE $? "Move to Mongosh directory"
+
+curl -o mongosh.tgz https://downloads.mongodb.com/compass/mongosh-2.5.5-linux-x64.tgz
+VALIDATE $? "Download mongosh"
+tar -xvzf mongosh.tgz
+VALIDATE $? "Untar Mongosh"
+cd mongosh-2.5.5-linux-x64
+VALIDATE $? "Move"
+mv bin/mongosh /bin/mongosh
+VALIDATE $? "Move"
+
+mongosh --version &>> $LOGFILE
+
+VALIDATE $? "Check mongosh version"
+
+# ~ here means current users home directory /home/ec2-user/mongosh-2.5.5-linux-x64/bin/
+#cd ~/mongosh-2.5.5-linux-x64/bin/ &>> $LOGFILE
+
+#VALIDATE $? "Move to mongosh-2.5.5-linux-x64/bin"
+
+#./mongosh &>> $LOGFILE
+
+#VALIDATE $? "Run Mongosh"
+
+mongosh --host 3.108.217.144 < /app/schema/user.js &>> $LOGFILE
+
+VALIDATE $? "Loading..."
