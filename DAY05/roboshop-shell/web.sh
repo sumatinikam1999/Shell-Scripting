@@ -66,7 +66,7 @@ unzip /tmp/web.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping web artifact"
 
-cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>> $LOGFILE
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>> $LOGFILE
 
 VALIDATE $? "copying roboshop config" 
 
