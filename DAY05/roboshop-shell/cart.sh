@@ -67,7 +67,7 @@ VALIDATE_DIR $? "Checking directory exists or not, if not then create directory"
 
 VALIDATE $? "Creating directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
+curl -o /tmp/cart.zip https://roboshop-builds.s3.amazonaws.com/cart.zip &>> $LOGFILE
 
 VALIDATE $? "Downloading app code"
 
@@ -75,7 +75,7 @@ cd /app  >> $LOGFILE
 
 VALIDATE $? "Moving to /app directory"
 
-unzip /tmp/catalogue.zip &>> $LOGFILE
+unzip /tmp/cart.zip &>> $LOGFILE
 
 VALIDATE $? "Unzip File"
 
@@ -87,20 +87,20 @@ npm install  &>> $LOGFILE
 
 VALIDATE $? "Installing dependencies"
 
-#give full path of catalogue.service because we are inside /app
-cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+#give full path of cart.service because we are inside /app
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/cart.service /etc/systemd/system/cart.service &>> $LOGFILE
 
-VALIDATE $? "Copying catalogue.service"
+VALIDATE $? "Copying cart.service"
 
 systemctl daemon-reload &>> $LOGFILE
 
 VALIDATE $? "Running daemon reload"
 
-systemctl enable catalogue &>> $LOGFILE
+systemctl enable cart &>> $LOGFILE
 
-VALIDATE $? "Enabling catalogue"
+VALIDATE $? "Enabling cart"
 
 systemctl start cart &>> $LOGFILE
 
-VALIDATE $? "Start catalogue"
+VALIDATE $? "Start cart"
 
