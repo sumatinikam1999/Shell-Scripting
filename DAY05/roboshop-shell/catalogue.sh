@@ -89,7 +89,7 @@ VALIDATE $? "Installing dependencies"
 
 cd
 #give full path of catalogue.service because we are inside /app
-cp catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /home/ec2-user/Shell-scripting/DAY05/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? "Copying catalogue.service"
 
