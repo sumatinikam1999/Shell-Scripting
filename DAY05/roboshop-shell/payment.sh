@@ -61,13 +61,13 @@ VALIDATE $? "Downloading"
 cd /app  &>> $LOGFILE
 VALIDATE $? "Moving"
 
+sudo dnf install -y python3-pip &>> $LOGFILE
+VALIDATE $? "Installing python3"
+
 pip3 install -r requirements.txt &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 cd /app &>> $LOGFILE
 VALIDATE $? "Moving" 
-
-sudo dnf install -y python3-pip &>> $LOGFILE
-VALIDATE $? "Installing python3"
 
 cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
 

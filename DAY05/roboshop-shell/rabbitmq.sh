@@ -33,7 +33,8 @@ VALIDATE $? "Downloading"
 #cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> $LOGFILE
 #VALIDATE $? "Copying"
 
-dnf install rabbitmq-server --nogpgcheck -y &>> $LOGFILE
+#dnf install rabbitmq-server --nogpgcheck -y &>> $LOGFILE
+dnf install -y https://github.com/rabbitmq/erlang-rpm/releases/download/v26.2.1/erlang-26.2.1-1.el9.x86_64.rpm https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.9/rabbitmq-server-3.12.9-1.el9.noarch.rpm
 
 VALIDATE $? "Installing"
 
