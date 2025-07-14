@@ -26,3 +26,29 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+yum module disable mysql -y &>> $LOGFILE
+
+VALIDATE $? "Disabling version"
+
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
+
+VALIDATE $? "copying mysql repo"
+
+yum install mysql-community-server -y &>> $LOGFILE
+
+VALIDATE $? "installing mysql"
+
+systemctl enable mysqld &>> $LOGFILE
+
+VALIDATE $? "Enabling mysqld"
+
+systemctl start mysqld &>> $LOGFILE
+
+VALIDATE $? "starting mysqld"
+
+mysql_secure_installation --set-root-pass RoboShop@1 &>> $LOGFILE
+
+VALIDATE $? "Setting up root password"
+
+

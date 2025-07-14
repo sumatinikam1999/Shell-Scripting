@@ -26,3 +26,79 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+VALIDATE_Roboshop(){
+#Check if the roboshop user exists
+if id "roboshop" >/dev/null 2>&1; then
+        echo "user already exists"
+else
+        useradd roboshop
+        echo "user roboshop created"
+fi
+}
+
+VALIDATE_DIR(){
+#Check if the /app directory exists or not
+if [ -d "/app" ]; then
+        echo "directory already exists"
+else
+        mkdir /app
+        echo "directory /app created"
+fi
+}
+
+
+yum install maven -y &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+VALIDATE_Roboshop $? "Creating User if not exists"
+VALIDATE_DIR $? "Creating dir if not exists"
+
+curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+cd /app &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+unzip /tmp/shipping.zip &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+cd /app &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+mvn clean package &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+
+VALIDATE $? "Installing maven"
+
+systemctl daemon-reload &>> $LOGFILE
+
+VALIDATE $? "reload"
+
+systemctl start shipping &>> $LOGFILE
+
+VALIDATE $? "starting shipping"
+
+sudo dnf install mysql-community-client --nogpgcheck -y &>> $LOGFILE
+
+VALIDATE $? "Installing mysql client"
+
+mysql -h 13.204.79.95 -uroot -pRoboShop@1 < /app/schema/schema.sql  &>> $LOGFILE
+
+VALIDATE $? "Trying to login to mysql"
+
+systemctl restart shipping &>> $LOGFILE
+
+VALIDATE $? "Restarting shipping"
