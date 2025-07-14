@@ -136,7 +136,3 @@ VALIDATE $? "Check mongosh version"
 mongosh --host 3.108.217.144 < /app/schema/catalogue.js &>> $LOGFILE
 
 VALIDATE $? "Loading..."
-
-mongosh --host 3.108.217.144 </app/schema/catalogue.js &>> $LOGFILE
-
-VALIDATE $? "Loading..."
