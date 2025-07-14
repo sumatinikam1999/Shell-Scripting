@@ -57,23 +57,23 @@ VALIDATE_DIR $? "Creating dir if not exists"
 
 curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Downloading"
 
 cd /app &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Moving to /app"
 
 unzip /tmp/shipping.zip &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "unzipping shipping"
 
 cd /app &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Moving to /app"
 
 mvn clean package &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Cleaning package"
 
 mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 
@@ -81,7 +81,7 @@ VALIDATE $? "Installing maven"
 
 cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Copying shipping service"
 
 systemctl daemon-reload &>> $LOGFILE
 
