@@ -73,11 +73,11 @@ VALIDATE $? "Moving to /app"
 
 mvn clean package &>> $LOGFILE
 
-VALIDATE $? "Cleaning package"
+VALIDATE $? "packaging shipping app"
 
 mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "shipping jar"
 
 cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
@@ -85,13 +85,13 @@ VALIDATE $? "Copying shipping service"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "reload"
+VALIDATE $? "daemon reload"
 
 systemctl start shipping &>> $LOGFILE
 
 VALIDATE $? "starting shipping"
 
-sudo dnf install mysql-community-client --nogpgcheck -y &>> $LOGFILE
+yum install mysql -y &>> $LOGFILE
 
 VALIDATE $? "Installing mysql client"
 
