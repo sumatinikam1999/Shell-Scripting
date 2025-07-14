@@ -27,11 +27,6 @@ VALIDATE(){
     fi
 }
 
-
-Install Redis &>> $LOGFILE
-
-VALIDATE $? "Installing Redis"
-
 sudo amazon-linux-extras enable redis6 &>> $LOGFILE
 
 VALIDATE $? "Installing Redis6"
