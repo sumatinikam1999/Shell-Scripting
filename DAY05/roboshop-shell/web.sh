@@ -29,18 +29,36 @@ VALIDATE(){
 
 yum install nginx -y
 
+VALIDATE $? "Installing nginx"
+
 systemctl enable nginx
+
+VALIDATE $? "Enabling nginx"
 
 systemctl start nginx
 
+VALIDATE $? "Starting nginx"
+
 rm -rf /usr/share/nginx/html/*
+
+VALIDATE $? "Removing default website"
 
 curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
 
+VALIDATE $? "Downloading web artifact"
+
 cd /usr/share/nginx/html
+
+VALIDATE $? "Moving to default HTML directory"
 
 unzip /tmp/web.zip
 
+VALIDATE $? "unzipping web artifact"
+
 cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf 
 
+VALIDATE $? "copying roboshop config"
+
 systemctl restart nginx 
+
+VALIDATE $? "Restarting nginx"
