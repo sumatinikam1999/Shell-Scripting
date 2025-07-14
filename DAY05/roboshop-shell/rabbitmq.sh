@@ -1,64 +1,56 @@
 #!/bin/bash
+
 DATE=$(date +%F:%H:%M:%S)
 LOG_DIR=/tmp
-SCRIPT_NAME=$0
+SCRIPT_NAME=$(basename "$0")
 LOGFILE=$LOG_DIR/$SCRIPT_NAME-$DATE.log
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
-Y="\e[33m"
 
 USERID=$(id -u)
-#this function should validate previous command and inform user it's success or failure
-
-if [ $USERID -ne 0 ]
-    then
-       echo "ERROR: Please run script with root user"
-       exit 1 #shell script won't understand by default to stop after seeing error so we have give exit status other than zero to exit if having error
+if [ $USERID -ne 0 ]; then
+    echo -e "$RERROR: Please run this script as root$N"
+    exit 1
 fi
 
-VALIDATE(){
-    if [ $1 -ne 0 ]
-          then
-            echo -e "$2...$R...Failure...$N"
-            exit 1
+VALIDATE() {
+    if [ $1 -ne 0 ]; then
+        echo -e "$2...$RFailure$N"
+        exit 1
     else
-            echo -e "$2...$G...Success...$N"
+        echo -e "$2...$GSuccess$N"
     fi
 }
 
-#curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOGFILE
+echo -e "Adding Erlang repo..."
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOGFILE
+VALIDATE $? "Adding Erlang repo"
 
-#curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOGFILE
+echo -e "Installing Erlang..."
+dnf install -y erlang &>>$LOGFILE
+VALIDATE $? "Installing Erlang"
 
-#dnf install rabbitmq-server -y  &>>$LOGFILE
-#VALIDATE $? "Downloading"
+echo -e "Adding RabbitMQ repo..."
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOGFILE
+VALIDATE $? "Adding RabbitMQ repo"
 
-# Step 1: Install Erlang (dependency)
-#curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOGFILE
-#VALIDATE $? "Adding Erlang repo"
-
-#dnf install -y erlang &>>$LOGFILE
-#VALIDATE $? "Installing Erlang"
-
-#dnf install -y https://github.com/rabbitmq/erlang-rpm/releases/download/v26.2.1/erlang-26.2.1-1.el9.x86_64.rpm
-
-# Step 2: Install RabbitMQ repo
-#curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOGFILE
-#VALIDATE $? "Adding RabbitMQ repo"
-dnf install -y https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.11/rabbitmq-server-3.12.11-1.el9.noarch.rpm
-
-# Step 3: Install RabbitMQ
+echo -e "Installing RabbitMQ..."
 dnf install -y rabbitmq-server &>>$LOGFILE
 VALIDATE $? "Installing RabbitMQ"
-systemctl enable rabbitmq-server &>> $LOGFILE
-VALIDATE $? "Enabling"
 
-systemctl start rabbitmq-server &>> $LOGFILE
-VALIDATE $? "Starting"
+echo -e "Enabling RabbitMQ service..."
+systemctl enable rabbitmq-server &>>$LOGFILE
+VALIDATE $? "Enabling RabbitMQ service"
 
-rabbitmqctl add_user roboshop roboshop123 &>> $LOGFILE
-VALIDATE $? "adding user"
+echo -e "Starting RabbitMQ service..."
+systemctl start rabbitmq-server &>>$LOGFILE
+VALIDATE $? "Starting RabbitMQ service"
 
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $LOGFILE
-VALIDATE $? "Setting permission"
+echo -e "Creating RabbitMQ user..."
+rabbitmqctl add_user roboshop roboshop123 &>>$LOGFILE
+VALIDATE $? "Adding user roboshop"
+
+echo -e "Setting RabbitMQ permissions..."
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>$LOGFILE
+VALIDATE $? "Setting permissions for roboshop"
