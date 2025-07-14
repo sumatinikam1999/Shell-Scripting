@@ -28,7 +28,7 @@ VALIDATE(){
 }
 
 #yum install nginx -y &>> $LOGFILE
-sudo amazon-linux-extras install nginx1 &>> $LOGFILE
+amazon-linux-extras enable nginx1 -y &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
