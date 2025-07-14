@@ -95,9 +95,17 @@ dnf install mariadb105 -y &>> $LOGFILE
 
 VALIDATE $? "Installing mysql client"
 
-mysql -h 13.204.79.95 -uroot -pRoboShop@1 < /app/schema/schema.sql  &>> $LOGFILE
+#mysql -h 13.204.79.95 -uroot -pRoboShop@1 < /app/schema/schema.sql  &>> $LOGFILE
 
-VALIDATE $? "Trying to login to mysql"
+#VALIDATE $? "Trying to login to mysql"
+
+if [ -f /app/schema/schema.sql ]; then
+  mysql -h 13.204.79.95 -uroot -pRoboShop@1 < /app/schema/schema.sql &>> $LOGFILE
+  VALIDATE $? "Loading schema into MySQL"
+else
+  echo -e "Schema file /app/schema/schema.sql not found...$R Failure...$N"
+  exit 1
+fi
 
 systemctl restart shipping &>> $LOGFILE
 
