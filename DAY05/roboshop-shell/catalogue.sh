@@ -3,11 +3,12 @@ DATE=$(date +%F:%H:%M:%S)
 LOG_DIR=/tmp
 SCRIPT_NAME=$0
 LOGFILE=$LOG_DIR/$SCRIPT_NAME-$DATE.log
+SCRIPT_DIR="$(dirname "$(readlin -f "$0")")"
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
-SCRIPT_DIR="$(dirname "$(readlin -f "$0")")"
+
 USERID=$(id -u)
 #this function should validate previous command and inform user it's success or failure
 
@@ -89,7 +90,7 @@ VALIDATE $? "Installing dependencies"
 
 cd
 #give full path of catalogue.service because we are inside /app
-cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp "$SCRIPT_DIR/catalogue.service" /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? "Copying catalogue.service"
 
