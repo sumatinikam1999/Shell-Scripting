@@ -45,7 +45,7 @@ VALIDATE $? "Replacing 127.0.0.1 with 0.0.0.0"
 
 sudo systemctl start redis &>> $LOGFILE
 
-VALIDATE $? Starting redis"
+VALIDATE $? "Starting redis"
 
 sudo systemctl enable redis &>> $LOGFILE
 
