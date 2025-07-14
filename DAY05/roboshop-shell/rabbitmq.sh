@@ -26,3 +26,24 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> $LOGFILE
+VALIDATE $? "Downloading"
+
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>> $LOGFILE
+VALIDATE $? "Copying"
+
+yum install rabbitmq-server -y $LOGFILE
+VALIDATE $? "Installing"
+
+systemctl enable rabbitmq-server $LOGFILE
+VALIDATE $? "Enabling"
+
+systemctl start rabbitmq-server $LOGFILE
+VALIDATE $? "Starting"
+
+rabbitmqctl add_user roboshop roboshop123 $LOGFILE
+VALIDATE $? "adding user"
+
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" $LOGFILE
+VALIDATE $? "Setting permission"

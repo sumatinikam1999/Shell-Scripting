@@ -26,3 +26,56 @@ VALIDATE(){
             echo -e "$2...$G...Success...$N"
     fi
 }
+
+
+VALIDATE_Roboshop(){
+#Check if the roboshop user exists
+if id "roboshop" >/dev/null 2>&1; then
+        echo "user already exists"
+else
+        useradd roboshop
+        echo "user roboshop created"
+fi
+}
+
+VALIDATE_DIR(){
+#Check if the /app directory exists or not
+if [ -d "/app" ]; then
+        echo "directory already exists"
+else
+        mkdir /app
+        echo "directory /app created"
+fi
+}
+
+sudo dnf install -y python3 gcc python3-devel &>> $LOGFILE
+
+VALIDATE $? "Installing python"
+
+VALIDATE_Roboshop $? "Creating User if not exists"
+VALIDATE_DIR $? "Creating dir if not exists"
+
+curl -L -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip &>> $LOGFILE
+VALIDATE $? "Downloading"
+
+cd /app  &>> $LOGFILE
+VALIDATE $? "Moving"
+
+pip3 install -r requirements.txt &>> $LOGFILE
+VALIDATE $? "Installing dependencies"
+cd /app &>> $LOGFILE
+VALIDATE $? "Moving" 
+
+sudo dnf install -y python3-pip &>> $LOGFILE
+VALIDATE $? "Installing python3"
+
+cp /home/ec2-user/Shell-Scripting/DAY05/roboshop-shell/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
+
+systemctl daemon-reload &>> $LOGFILE
+VALIDATE $? "daemon reload"
+
+systemctl enable payment &>> $LOGFILE
+VALIDATE $? "IEnabling python"
+
+systemctl start payment &>> $LOGFILE
+VALIDATE $? "Starting python"
