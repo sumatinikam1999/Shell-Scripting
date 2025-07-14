@@ -32,15 +32,15 @@ amazon-linux-extras enable nginx1 -y &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
-systemctl enable nginx &>> $LOGFILE
+systemctl enable nginx1 &>> $LOGFILE
 
 VALIDATE $? "Enabling nginx"
 
-systemctl start nginx &>> $LOGFILE
+systemctl start nginx1 &>> $LOGFILE
 
 VALIDATE $? "Starting nginx"
 
-rm -rf /usr/share/nginx/html/* &>> $LOGFILE
+rm -rf /usr/share/nginx1/html/* &>> $LOGFILE
 
 VALIDATE $? "Removing default website"
 
@@ -48,7 +48,7 @@ curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFI
 
 VALIDATE $? "Downloading web artifact"
 
-cd /usr/share/nginx/html &>> $LOGFILE
+cd /usr/share/nginx1/html &>> $LOGFILE
 
 VALIDATE $? "Moving to default HTML directory"
 
@@ -56,10 +56,10 @@ unzip /tmp/web.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping web artifact"
 
-cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>> $LOGFILE
+cp /home/ec2-user/Shell-Scripting/roboshop-shell/roboshop.conf /etc/nginx1/default.d/roboshop.conf  &>> $LOGFILE
 
 VALIDATE $? "copying roboshop config" 
 
-systemctl restart nginx  &>> $LOGFILE
+systemctl restart nginx1  &>> $LOGFILE
 
 VALIDATE $? "Restarting nginx"
