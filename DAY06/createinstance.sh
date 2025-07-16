@@ -22,7 +22,7 @@ for i in "${NAMES[@]}"
    aws route53 change-resource-record-sets --hosted-zone-id Z00027373O2OKHY987PPU --change-batch 
    "
    {
-           "Comment": "optional comment about the changes in this change batch request",
+           "Comment": "Creating DNS record for $i"",
            "Changes": [{
            "Action": "CREATE",
                        "ResourceRecordSet": {
@@ -35,3 +35,6 @@ for i in "${NAMES[@]}"
     "
 done
 
+#improvements
+#check instance already created or not
+#update route53 record
