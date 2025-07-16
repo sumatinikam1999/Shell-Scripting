@@ -16,10 +16,12 @@ for i in "${NAMES[@]}"
      INSTANCE_TYPE="t2.micro"
    fi
    echo "creating $i instance"
-   IP_ADDRESS=$(aws ec2 run-instances --image-id $IMAGE_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" | jq -r 'Instances[0].PrivateIpAddress')
+   IP_ADDRESS=$(aws ec2 run-instances --image-id $IMAGE_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text) 
    echo "creating $i instance: $IP_ADDRESS"
 
-   aws route53 change-resource-record-sets --hosted-zone-id Z00027373O2OKHY987PPU --change-batch '{
+   aws route53 change-resource-record-sets --hosted-zone-id Z00027373O2OKHY987PPU --change-batch 
+   "
+   {
            "Comment": "optional comment about the changes in this change batch request",
            "Changes": [{
            "Action": "CREATE",
@@ -29,6 +31,7 @@ for i in "${NAMES[@]}"
                                      "ResourceRecords": [{
                                           "Value": "$IP_ADDRESS"}]
                         }}]
-    }'
+    }
+    "
 done
 
