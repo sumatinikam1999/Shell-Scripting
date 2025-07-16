@@ -1,8 +1,19 @@
 #!/bin/bash
 
 NAMES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shopping" "payment" "dispatch" "web")
+INSTANCE_TYPE=""
+IMAGE_ID=ami-0a1235697f4afa8a4
+SECURITY_GROUP_ID=sg-02b7456262aa1e272
+#if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in "${NAMES[@]}"
  do
-   echo "NAME: $i"
+ if [ [ $i == "mongodb ||| $i == "mysql" ]]
+ then
+   INSTANCE_TYPE="t3.medium"
+   else
+   INSTANCE_TYPE="t2.micro"
+   fi
+   echo "creating $i instance"
+   aws ec2 run-instances --image-id $IMAGE_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROU_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"
 done

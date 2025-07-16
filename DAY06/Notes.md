@@ -21,3 +21,6 @@ aws command line to create ec2 instance
 aws ec2 run-instances --image-id ami-0a1235697f4afa8a4 --count 1 --instance-type t2.micro --key-name new --security-group-ids sg-02b7456262aa1e272 --subnet-id subnet-033d688be356e8166 | jq -r '.Instances[0].PrivateIpAddress'
 
 create all the instances mongodb redis mysql rabbitmq catalogue user cart shopping payment dispatch web and update route53 record
+
+|| -> or
+&& -> and
