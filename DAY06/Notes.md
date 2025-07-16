@@ -24,3 +24,24 @@ create all the instances mongodb redis mysql rabbitmq catalogue user cart shoppi
 
 || -> or
 && -> and
+
+how to create route 53 records through aws command line
+aws route53 change-resource-record-sets --hosted-zone-id Z00027373O2OKHY987PPU --change-batch '
+{
+  "Comment": "optional comment about the changes in this change batch request",
+  "Changes": [
+    {
+      "Action": "CREATE"|"DELETE"|"UPSERT",
+      "ResourceRecordSet": {
+        "Name": "$i.$DOMAIN_NAME",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "$IP_ADDRESS"
+          },
+        ]
+      }
+    }
+  ]
+}
+'

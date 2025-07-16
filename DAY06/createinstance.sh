@@ -4,6 +4,7 @@ NAMES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shopping"
 INSTANCE_TYPE=""
 IMAGE_ID=ami-0a1235697f4afa8a4
 SECURITY_GROUP_ID=sg-02b7456262aa1e272
+DOMAIN_NAME=devopslearner.space
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in "${NAMES[@]}"
@@ -17,4 +18,17 @@ for i in "${NAMES[@]}"
    echo "creating $i instance"
    IP_ADDRESS=$(aws ec2 run-instances --image-id $IMAGE_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" | jq -r 'Instances[0].PrivateIpAddress')
    echo "creating $i instance: $IP_ADDRESS"
+
+   aws route53 change-resource-record-sets --hosted-zone-id Z00027373O2OKHY987PPU --change-batch '{
+           "Comment": "optional comment about the changes in this change batch request",
+           "Changes": [{
+           "Action": "CREATE",
+                       "ResourceRecordSet": {
+                                     "Name": "$i.$DOMAIN_NAME",
+                                     "TTL": 300,
+                                     "ResourceRecords": [{
+                                          "Value": "$IP_ADDRESS"}]
+                        }}]
+    }'
 done
+
