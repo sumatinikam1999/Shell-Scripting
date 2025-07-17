@@ -1,0 +1,14 @@
+#playbook containes multiple plays, always it should start with -
+- name: Ping the node
+  hosts: nginx
+#list of tasks
+  tasks:
+   - name: pinging the node
+  #this is the map
+     ansible.builtin.yum:
+        name: nginx
+        state: installed
+   - name: Start nginx
+     ansible.builtin.service
+        name: nginx
+        state: started

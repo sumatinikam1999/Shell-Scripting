@@ -1,0 +1,10 @@
+<person>
+   <Name>Sumati</Name>
+   <DOB>15-03-1999</DOB>
+   <Address>
+       <PermAddress>
+           <Country>India</Country>
+           <City>Latur</City>
+        </PermAddress>
+    </Address>
+</person>

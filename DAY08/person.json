@@ -1,0 +1,27 @@
+{
+    "name": "Sumati",
+    "DOB": "15-03-1999",
+    #this is address map, inside everything is in key-value pair
+    "address": {
+        "Country": "India",
+        "City": "Latur"
+    }
+}
+
+{
+    "name": "Sumati",
+    "DOB": "15-03-1999",
+    #this is address map, inside everything is in key-value pair
+    "address": [
+           {
+            "Country": "India",
+            "City": "Latur"
+        },
+           {
+            "Country": "India",
+            "City": "Pune"
+        }
+    ] #list of address
+
+    }
+}

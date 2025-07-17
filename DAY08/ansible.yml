@@ -1,0 +1,34 @@
+#list of persons
+- name: Sumati
+  dob: 15-03-1999
+#this is map
+  address:
+    city: latur
+    country: india
+    dno: 16
+    street: latur
+#this is list of addresses
+  addresses:
+    - type: perm
+      city: pune
+      country: india
+    - type: current
+      city: hyd
+      country: india
+#list of persons
+- name: Sumati
+  dob: 15-03-1999
+#this is map
+  address:
+   city: latur
+   country: india
+   dno: 16
+   street: latur
+#this is list of addresses
+  addresses:
+   - type: perm
+     city: pune
+     country: india
+   - type: current
+     city: hyd
+     country: india
