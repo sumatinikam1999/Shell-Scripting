@@ -1,0 +1,6 @@
+[nginx]
+43.204.147.123
+
+#group of group
+[db:children]
+43.204.147.123
