@@ -1,6 +1,7 @@
 #playbook containes multiple plays, always it should start with -
 - name: Ping the node
   hosts: nginx
+  become: yes
 #list of tasks
   tasks:
    - name: pinging the node
