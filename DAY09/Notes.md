@@ -27,3 +27,6 @@ loop:
 {{item}} - 1st item - Sumati
 2nd - Sam
 3rd - Som
+
+
+how to pass ip address directly to ansible playbook
