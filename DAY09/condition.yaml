@@ -1,0 +1,23 @@
+- name: create user 
+  hosts: localhost
+  tasks:
+  - name: check roboshop user exist or not
+  #when you want to run linux command directly i.e in the case ansible module not avaiable
+  #when user does not exists, then ansible treating it as failure and come out by default
+  #ignore_errors: true then ansible will proceed even if there is error 
+  ansible.builtin.command: id roboshop
+  register: output #output is variable name
+  ignore_errors: true
+  - name: print the command output
+    ansible.builtin.debug:
+      msg: "output is: {{output}}"
+  - name: print exit status
+    ansible.builtin.debug:
+      msg: "output is: {{output.rc}}"
+  - name: create user roboshop
+    ansible.builtin.user:
+      name: roboshop
+    when: output.rc != 0 #if this expression is true then only this module will run
+
+
+#assignment: take username as variable and then dynamically check user exist or not  then create

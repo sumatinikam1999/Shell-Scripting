@@ -1,0 +1,14 @@
+- name: variables in ansible
+  hosts: nginx
+  #this is play level vars
+  vars: 
+    COURSE: Dev
+    TRAINER: Sam
+    DURATION: 110HRS
+  tasks:
+  - name: print hello world
+    ansible.builtin.debug:
+       msg: "Hello"
+  - name: print hello world
+    ansible.builtin.debug:
+       msg: "Hello {{COURSE}}, {{TRAINER}}, {{DURATION}}"

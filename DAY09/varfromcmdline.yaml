@@ -1,0 +1,8 @@
+- name: vars from cmd line
+  hosts: localhost
+  tasks:
+  - name: print var from cmd line
+  ansible.builtin.debug:
+    msg: "The var of the course is: {{COURSE}}"
+#while running playbook
+#-e COURSE=DevOps

@@ -1,0 +1,12 @@
+- name: variables from files
+  hosts: localhost #managing ansible server
+  var_files:
+  - variables.yaml
+  tasks:
+  - name: printing variables
+  ansible.builtin.debug:
+    msg: "we are leaning {{COURSE}}, DURATION is: {{DURATION}}, Trainer is: {{TRAINER}}"
+
+  
+#ansible-playbook all -i inventory varsfromfile.yaml
+

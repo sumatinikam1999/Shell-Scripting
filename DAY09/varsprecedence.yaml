@@ -1,0 +1,23 @@
+- name: testing variable precedence
+  hosts: localhosts
+  vars:  
+    NAME: Sumati
+  vars_files:
+  - variable.yaml
+  vars_prompt:
+    name: USERNAME
+    prompt: please enter training name
+    private: false
+  tasks: 
+  - name: variables at task level
+  vars:
+    NAME: Sumati
+    ansible.builtin.debug:
+      msg: "Training name is: {{NAME}}"
+
+#first preference is command line variables
+#task level
+#variables files
+#prompt
+#play#inventory
+#roles
