@@ -30,3 +30,11 @@ loop:
 
 
 how to pass ip address directly to ansible playbook
+
+map is key-value pair
+list i always -
+
+Ansible roboshop
+1. we will install all components using ansible
+2. we will improve with best pratices
+
