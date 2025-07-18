@@ -45,24 +45,32 @@ for i in $@
     ACTION="UPSERT"
     echo "[INFO] DNS record exists. Updating Route53 record for $i.$DOMAIN_NAME"
   else
-    ACTION="CREATE"
+    ACTION="$Action"
     echo "[INFO] Creating new Route53 record for $i.$DOMAIN_NAME"
   fi
 
-   aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch 
-   "
-   {
-           "Comment": "Creating DNS record for $i",
-           "Changes": [{
-           "Action": "CREATE",
-                       "ResourceRecordSet": {
-                                     "Name": "$i.$DOMAIN_NAME",
-                                     "TTL": 300,
-                                     "ResourceRecords": [{
-                                          "Value": "$IP_ADDRESS"}]
-                        }}]
+aws route53 change-resource-record-sets \
+  --hosted-zone-id $HOSTED_ZONE_ID \
+  --change-batch file://<(cat <<EOF
+{
+  "Comment": "Creating DNS record for $i",
+  "Changes": [
+    {
+      "Action": "$ACTION",
+      "ResourceRecordSet": {
+        "Name": "$i.$DOMAIN_NAME",
+        "Type": "A",
+        "TTL": 300,
+        "ResourceRecords": [
+          { "Value": "$IP_ADDRESS" }
+        ]
+      }
     }
-    "
+  ]
+}
+EOF
+)
+
 done
 
 #improvements
