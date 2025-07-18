@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 NAMES=$@
 INSTANCE_TYPE=""
 SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a
@@ -53,7 +53,7 @@ CHANGE_BATCH=$(cat <<EOF
 {
   "Comment": "Creating DNS record for $i",
   "Changes": [{
-    "Action": "$ACTION",
+    "Action": "UPSERT",
     "ResourceRecordSet": {
       "Name": "$i.$DOMAIN_NAME",
       "Type": "A",
