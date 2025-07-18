@@ -2,11 +2,11 @@
 
 NAMES=$@
 INSTANCE_TYPE=""
-SECURITY_GROUP_ID=sg-02b7456262aa1e272
+SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a
 DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
 AMI_LINUX2=ami-0c02fb55956c7d316
-AMI_LINUX2023=ami-0a1235697f4afa8a4
+AMI_LINUX2023=ami-0150ccaf51ab55a51
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in $@
@@ -49,27 +49,24 @@ for i in $@
     echo "[INFO] Creating new Route53 record for $i.$DOMAIN_NAME"
   fi
 
-aws route53 change-resource-record-sets \
-  --hosted-zone-id $HOSTED_ZONE_ID \
-  --change-batch file://<(cat <<EOF
+CHANGE_BATCH=$(cat <<EOF
 {
   "Comment": "Creating DNS record for $i",
-  "Changes": [
-    {
-      "Action": "$ACTION",
-      "ResourceRecordSet": {
-        "Name": "$i.$DOMAIN_NAME",
-        "Type": "A",
-        "TTL": 300,
-        "ResourceRecords": [
-          { "Value": "$IP_ADDRESS" }
-        ]
-      }
+  "Changes": [{
+    "Action": "$ACTION",
+    "ResourceRecordSet": {
+      "Name": "$i.$DOMAIN_NAME",
+      "Type": "A",
+      "TTL": 300,
+      "ResourceRecords": [{"Value": "$IP_ADDRESS"}]
     }
-  ]
+  }]
 }
 EOF
 )
+
+aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch "$CHANGE_BATCH"
+
 
 done
 
