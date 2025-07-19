@@ -52,6 +52,31 @@ IP_ADDRESS=$(aws ec2 describe-instances \
 
 echo "creating $i instance: $IP_ADDRESS"
 
+# Wait for SSH to be available
+echo "Waiting for SSH to be available on $IP_ADDRESS..."
+until ssh -o StrictHostKeyChecking=no -i ~/.ssh/new.pem ec2-user@$IP_ADDRESS 'echo "SSH is ready"' &>/dev/null; do
+  sleep 5
+done
+
+# Create ansible user, add SSH key, and set passwordless sudo
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/new.pem ec2-user@$IP_ADDRESS <<EOF
+  # Create ansible user if not exists
+  id ansible &>/dev/null || sudo useradd -m -s /bin/bash ansible
+
+  # Create .ssh folder and authorized_keys
+  sudo mkdir -p /home/ansible/.ssh
+  echo "$PUB_KEY" | sudo tee /home/ansible/.ssh/authorized_keys
+
+  # Set permissions
+  sudo chown -R ansible:ansible /home/ansible/.ssh
+  sudo chmod 700 /home/ansible/.ssh
+  sudo chmod 600 /home/ansible/.ssh/authorized_keys
+
+  # Add passwordless sudo for ansible user
+  echo "ansible ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/ansible
+EOF
+
+
   # Check if Route53 record already exists
   RECORD_EXISTS=$(aws route53 list-resource-record-sets \
     --hosted-zone-id "$HOSTED_ZONE_ID" \
