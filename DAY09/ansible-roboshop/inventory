@@ -1,1 +1,8 @@
-43.204.109.35
+[mongodb]
+mongodb.joindevops.online
+
+[web]
+web.joindevops.online
+
+[redis]
+redis.joindevops.online
