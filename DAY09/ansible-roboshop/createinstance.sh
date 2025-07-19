@@ -30,13 +30,28 @@ for i in $@
    else
      AMI_ID=$AMI_LINUX2023
    fi
-   echo "creating $i instance"
-   IP_ADDRESS=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PublicIpAddress' --output text) 
-   
-   sleep 60  # wait for IP to be assigned
+echo "creating $i instance"
 
-   echo "creating $i instance: $IP_ADDRESS"
-  
+INSTANCE_ID=$(aws ec2 run-instances \
+  --image-id $AMI_ID \
+  --count 1 \
+  --instance-type $INSTANCE_TYPE \
+  --key-name new \
+  --security-group-ids $SECURITY_GROUP_ID \
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
+  --query 'Instances[0].InstanceId' \
+  --output text)
+
+echo "Waiting for $i instance ($INSTANCE_ID) to enter running state..."
+aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+
+IP_ADDRESS=$(aws ec2 describe-instances \
+  --instance-ids $INSTANCE_ID \
+  --query "Reservations[0].Instances[0].PublicIpAddress" \
+  --output text)
+
+echo "creating $i instance: $IP_ADDRESS"
+
   # Check if Route53 record already exists
   RECORD_EXISTS=$(aws route53 list-resource-record-sets \
     --hosted-zone-id "$HOSTED_ZONE_ID" \
