@@ -5,31 +5,8 @@ INSTANCE_TYPE=""
 SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a
 DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
-AMI_LINUX2=ami-0c02fb55956c7d316       # Amazon Linux 2
-AMI_LINUX2023=ami-0c101f26f147fa7fd   # Amazon Linux 2023
-
-PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
-
-# Ensure SSH key exists and read its content
-if [ ! -f /home/ansible/.ssh/new.pub ]; then
-  echo "new.pub not found, generating key pair..."
-  ssh-keygen -t rsa -b 2048 -f /home/ansible/.ssh/new -N ""
-fi
-
-PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
-
-# Prepare user-data script to inject public key on instance launch
-USER_DATA_FILE=$(mktemp)
-cat <<EOF > "$USER_DATA_FILE"
-#!/bin/bash
-mkdir -p /home/ec2-user/.ssh
-echo "$PUB_KEY" > /home/ec2-user/.ssh/authorized_keys
-chown -R ec2-user:ec2-user /home/ec2-user/.ssh
-chmod 700 /home/ec2-user/.ssh
-chmod 600 /home/ec2-user/.ssh/authorized_keys
-EOF
-
-
+AMI_LINUX2=ami-0c2b8ca1dad447f8a
+AMI_LINUX2023=ami-0150ccaf51ab55a51
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in $@
@@ -53,64 +30,13 @@ for i in $@
    else
      AMI_ID=$AMI_LINUX2023
    fi
-echo "creating $i instance"
+   echo "creating $i instance"
+   IP_ADDRESS=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PublicIpAddress' --output text) 
+   
+   sleep 60  # wait for IP to be assigned
 
-INSTANCE_ID=$(aws ec2 run-instances \
-  --image-id $AMI_ID \
-  --count 1 \
-  --instance-type $INSTANCE_TYPE \
-  --key-name new \
-  --security-group-ids $SECURITY_GROUP_ID \
-  --user-data file://$USER_DATA_FILE \
-  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
-  --query 'Instances[0].InstanceId' \
-  --output text)
-
-
-
-echo "Waiting for $i instance ($INSTANCE_ID) to enter running state..."
-aws ec2 wait instance-running --instance-ids $INSTANCE_ID
-
-IP_ADDRESS=$(aws ec2 describe-instances \
-  --instance-ids $INSTANCE_ID \
-  --query "Reservations[0].Instances[0].PublicIpAddress" \
-  --output text)
-
-echo "creating $i instance: $IP_ADDRESS"
-
-echo "Copying SSH public key to $IP_ADDRESS..."
-echo "Waiting for SSH to be available on ${IP_ADDRESS}..."
-
-while ! ssh -o StrictHostKeyChecking=no -i ~/.ssh/new ec2-user@${IP_ADDRESS} 'echo SSH is ready'; do
-  sleep 5
+   echo "creating $i instance: $IP_ADDRESS"
   
-# Create ansible user, add SSH key, and set passwordless sudo
-ssh -o StrictHostKeyChecking=no -i ~/.ssh/new ec2-user@$IP_ADDRESS <<EOF
-
-  # Create ansible user if not exists
-  id ansible &>/dev/null || sudo useradd -m -s /bin/bash ansible
-
-  # Create .ssh folder and authorized_keys
-  sudo mkdir -p /home/ansible/.ssh
-  echo "$PUB_KEY" | sudo tee /home/ansible/.ssh/authorized_keys
-
-  # Set permissions
-  sudo chown -R ansible:ansible /home/ansible/.ssh
-  sudo chmod 700 /home/ansible/.ssh
-  sudo chmod 600 /home/ansible/.ssh/authorized_keys
-
-  # Add passwordless sudo for ansible user
-  echo "ansible ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/ansible
-EOF
-
-
-done
-
-echo "Copying SSH public key to ${IP_ADDRESS}..."
-ssh -i ~/.ssh/new ec2-user@${IP_ADDRESS} "mkdir -p ~/.ssh && echo '$PUB_KEY' >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
-
-
-
   # Check if Route53 record already exists
   RECORD_EXISTS=$(aws route53 list-resource-record-sets \
     --hosted-zone-id "$HOSTED_ZONE_ID" \
