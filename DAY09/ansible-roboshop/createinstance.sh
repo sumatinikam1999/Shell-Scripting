@@ -5,8 +5,9 @@ INSTANCE_TYPE=""
 SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a
 DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
-AMI_LINUX2=ami-0c2b8ca1dad447f8a
-AMI_LINUX2023=ami-0150ccaf51ab55a51
+AMI_LINUX2=ami-0c02fb55956c7d316       # Amazon Linux 2
+AMI_LINUX2023=ami-0f34c5ae932e6f0e4    # Amazon Linux 2023
+
 PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
 
 # Ensure SSH key exists and read its content
@@ -54,7 +55,7 @@ for i in $@
    fi
 echo "creating $i instance"
 
-aws ec2 run-instances \
+INSTANCE_ID=$(aws ec2 run-instances \
   --image-id $AMI_ID \
   --count 1 \
   --instance-type $INSTANCE_TYPE \
@@ -63,7 +64,8 @@ aws ec2 run-instances \
   --user-data file://$USER_DATA_FILE \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
   --query 'Instances[0].InstanceId' \
-  --output text
+  --output text)
+
 
 
 echo "Waiting for $i instance ($INSTANCE_ID) to enter running state..."
@@ -76,8 +78,9 @@ IP_ADDRESS=$(aws ec2 describe-instances \
 
 echo "creating $i instance: $IP_ADDRESS"
 
-echo "Copying SSH public key to $PUBLIC_IP..."
-ssh -o "StrictHostKeyChecking=no" ec2-user@$PUBLIC_IP "mkdir -p ~/.ssh && echo $(cat ~/.ssh/new.pub) >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+echo "Copying SSH public key to $IP_ADDRESS..."
+ssh -o "StrictHostKeyChecking=no" ec2-user@$IP_ADDRESS \
+  "mkdir -p ~/.ssh && echo '$PUB_KEY' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
 
 done
 
