@@ -6,7 +6,7 @@ SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a
 DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
 AMI_LINUX2=ami-0c02fb55956c7d316       # Amazon Linux 2
-AMI_LINUX2023=ami-0f34c5ae932e6f0e4    # Amazon Linux 2023
+AMI_LINUX2023=ami-0c101f26f147fa7fd   # Amazon Linux 2023
 
 PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
 
@@ -79,14 +79,13 @@ IP_ADDRESS=$(aws ec2 describe-instances \
 echo "creating $i instance: $IP_ADDRESS"
 
 echo "Copying SSH public key to $IP_ADDRESS..."
-ssh -o "StrictHostKeyChecking=no" ec2-user@$IP_ADDRESS \
-  "mkdir -p ~/.ssh && echo '$PUB_KEY' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+echo "Waiting for SSH to be available on ${IP_ADDRESS}..."
 
-done
-
+while ! ssh -o StrictHostKeyChecking=no -i ~/.ssh/new ec2-user@${IP_ADDRESS} 'echo SSH is ready'; do
+  sleep 5
+  
 # Create ansible user, add SSH key, and set passwordless sudo
-ssh -o StrictHostKeyChecking=no -i ~/.ssh/new.pem ec2-user@$IP_ADDRESS <<EOF
-chmod 400 /home/ansible/.ssh/new.pem
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/new ec2-user@$IP_ADDRESS <<EOF
 
   # Create ansible user if not exists
   id ansible &>/dev/null || sudo useradd -m -s /bin/bash ansible
@@ -103,6 +102,13 @@ chmod 400 /home/ansible/.ssh/new.pem
   # Add passwordless sudo for ansible user
   echo "ansible ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/ansible
 EOF
+
+
+done
+
+echo "Copying SSH public key to ${IP_ADDRESS}..."
+ssh -i ~/.ssh/new ec2-user@${IP_ADDRESS} "mkdir -p ~/.ssh && echo '$PUB_KEY' >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+
 
 
   # Check if Route53 record already exists
