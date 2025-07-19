@@ -33,7 +33,7 @@ for i in $@
    echo "creating $i instance"
    IP_ADDRESS=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PublicIpAddress' --output text) 
    
-   sleep 10  # wait for IP to be assigned
+   sleep 60  # wait for IP to be assigned
 
    echo "creating $i instance: $IP_ADDRESS"
   
