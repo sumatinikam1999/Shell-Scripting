@@ -9,6 +9,26 @@ AMI_LINUX2=ami-0c2b8ca1dad447f8a
 AMI_LINUX2023=ami-0150ccaf51ab55a51
 PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
 
+# Ensure SSH key exists and read its content
+if [ ! -f /home/ansible/.ssh/new.pub ]; then
+  echo "new.pub not found, generating key pair..."
+  ssh-keygen -t rsa -b 2048 -f /home/ansible/.ssh/new -N ""
+fi
+
+PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
+
+# Prepare user-data script to inject public key on instance launch
+USER_DATA_FILE=$(mktemp)
+cat <<EOF > "$USER_DATA_FILE"
+#!/bin/bash
+mkdir -p /home/ec2-user/.ssh
+echo "$PUB_KEY" > /home/ec2-user/.ssh/authorized_keys
+chown -R ec2-user:ec2-user /home/ec2-user/.ssh
+chmod 700 /home/ec2-user/.ssh
+chmod 600 /home/ec2-user/.ssh/authorized_keys
+EOF
+
+
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in $@
@@ -34,15 +54,17 @@ for i in $@
    fi
 echo "creating $i instance"
 
-INSTANCE_ID=$(aws ec2 run-instances \
+aws ec2 run-instances \
   --image-id $AMI_ID \
   --count 1 \
   --instance-type $INSTANCE_TYPE \
   --key-name new \
   --security-group-ids $SECURITY_GROUP_ID \
+  --user-data file://$USER_DATA_FILE \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" \
   --query 'Instances[0].InstanceId' \
-  --output text)
+  --output text
+
 
 echo "Waiting for $i instance ($INSTANCE_ID) to enter running state..."
 aws ec2 wait instance-running --instance-ids $INSTANCE_ID
