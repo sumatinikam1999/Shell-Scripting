@@ -7,6 +7,7 @@ DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
 AMI_LINUX2=ami-0c2b8ca1dad447f8a
 AMI_LINUX2023=ami-0150ccaf51ab55a51
+PUB_KEY=$(cat ~/.ssh/new.pub)
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in $@
@@ -60,6 +61,8 @@ done
 
 # Create ansible user, add SSH key, and set passwordless sudo
 ssh -o StrictHostKeyChecking=no -i ~/.ssh/new.pem ec2-user@$IP_ADDRESS <<EOF
+chmod 400 /home/ansible/.ssh/new.pem
+
   # Create ansible user if not exists
   id ansible &>/dev/null || sudo useradd -m -s /bin/bash ansible
 
