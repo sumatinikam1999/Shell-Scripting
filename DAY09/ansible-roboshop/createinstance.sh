@@ -76,10 +76,9 @@ IP_ADDRESS=$(aws ec2 describe-instances \
 
 echo "creating $i instance: $IP_ADDRESS"
 
-# Wait for SSH to be available
-echo "Waiting for SSH to be available on $IP_ADDRESS..."
-until ssh -o StrictHostKeyChecking=no -i ~/.ssh/new.pem ec2-user@$IP_ADDRESS 'echo "SSH is ready"' &>/dev/null; do
-  sleep 5
+echo "Copying SSH public key to $PUBLIC_IP..."
+ssh -o "StrictHostKeyChecking=no" ec2-user@$PUBLIC_IP "mkdir -p ~/.ssh && echo $(cat ~/.ssh/new.pub) >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+
 done
 
 # Create ansible user, add SSH key, and set passwordless sudo
