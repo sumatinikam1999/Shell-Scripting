@@ -2,6 +2,13 @@
   hosts: web
   become: yes
   tasks:
+  - name: Add Nginx repo
+    ansible.builtin.yum_repository:
+      name: nginx
+      description: Nginx Repository
+      baseurl: http://nginx.org/packages/amazon/2/$basearch/
+      gpgcheck: no
+      enabled: yes
   - name: Install nginx 
     ansible.builtin.yum:
       name: nginx
@@ -25,7 +32,7 @@
 
   - name: download web content
     ansible.builtin.get_url:
-      url: curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+      url: https://roboshop-builds.s3.amazonaws.com/web.zip
       dest: /tmp
 
   - name: extract web content
