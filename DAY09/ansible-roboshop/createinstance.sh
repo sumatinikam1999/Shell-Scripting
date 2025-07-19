@@ -5,7 +5,7 @@ INSTANCE_TYPE=""
 SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a
 DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
-AMI_LINUX2=ami-03f4878755434977f
+AMI_LINUX2=ami-0c2b8ca1dad447f8a
 AMI_LINUX2023=ami-0150ccaf51ab55a51
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
@@ -31,7 +31,10 @@ for i in $@
      AMI_ID=$AMI_LINUX2023
    fi
    echo "creating $i instance"
-   IP_ADDRESS=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text) 
+   IP_ADDRESS=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type $INSTANCE_TYPE --key-name new --security-group-ids $SECURITY_GROUP_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PublicIpAddress' --output text) 
+   
+   sleep 10  # wait for IP to be assigned
+
    echo "creating $i instance: $IP_ADDRESS"
   
   # Check if Route53 record already exists
@@ -45,7 +48,7 @@ for i in $@
     ACTION="UPSERT"
     echo "[INFO] DNS record exists. Updating Route53 record for $i.$DOMAIN_NAME"
   else
-    ACTION="$Action"
+    ACTION="CREATE"
     echo "[INFO] Creating new Route53 record for $i.$DOMAIN_NAME"
   fi
 
