@@ -7,7 +7,8 @@ DOMAIN_NAME=devopslearner.space
 HOSTED_ZONE_ID=Z00027373O2OKHY987PPU
 AMI_LINUX2=ami-0c2b8ca1dad447f8a
 AMI_LINUX2023=ami-0150ccaf51ab55a51
-PUB_KEY=$(cat ~/.ssh/new.pub)
+PUB_KEY=$(cat /home/ansible/.ssh/new.pub)
+
 #if mysql or mongodb instance_type should be t3.medium, for all others is is t2.micro
 
 for i in $@
