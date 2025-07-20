@@ -65,6 +65,31 @@ Then, try manually connecting to the server once:
 
 
 ----
+
+
+[ansible@ip-172-31-5-31 ansible-roboshop]$ ansible-playbook -i inventory mongodb.yaml  
+
+PLAY [Install MongoDB component] *************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************************************************
+[WARNING]: Platform linux on host mongodb.yaml.devopslearner.space is using the discovered Python interpreter at /usr/bin/python3.9, but future installation of another Python interpreter
+could change the meaning of that path. See https://docs.ansible.com/ansible-core/2.15/reference_appendices/interpreter_discovery.html for more information.
+ok: [mongodb.yaml.devopslearner.space]
+
+TASK [copy mongodb repo to yum.repo.d] *******************************************************************************************************************************************************
+changed: [mongodb.yaml.devopslearner.space]
+
+TASK [Install MongoDB] ***********************************************************************************************************************************************************************
+fatal: [mongodb.yaml.devopslearner.space]: FAILED! => {"changed": false, "failures": [], "msg": "Depsolve Error occurred: \n Problem: conflicting requests\n  - package mongodb-org-4.4.0-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.0, but none of the providers can be installed\n  - package mongodb-org-4.4.1-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.1, but none of the providers can be installed\n  - package mongodb-org-4.4.10-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.10, but none of the providers can be installed\n  - package mongodb-org-4.4.11-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.11, but none of the providers can be installed\n  - package mongodb-org-4.4.12-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.12, but none of the providers can be installed\n  - package mongodb-org-4.4.13-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.13, but none of the providers can be installed\n  - package mongodb-org-4.4.14-1.amzn2.x86_64 from mongodb-org-4.4 requires mongodb-org-shell = 4.4.14, but none of the providers c
+
+###
+
+
+
+
+
+-----
+
 On control node:
 cat /home/ansible/.ssh/id_rsa.pub
 

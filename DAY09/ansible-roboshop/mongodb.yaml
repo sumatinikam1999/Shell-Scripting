@@ -14,11 +14,11 @@
 
   - name: Install MongoDB
     ansible.builtin.yum:
-      name: mongodb-org
+      name: mongodb-org-4.2.24
       state: installed
   - name: start and enable mongodb
     ansible.builtin.service:
-      name: mongob
+      name: mongod
       state: started
       enabled: yes
   - name: enable remote connections to mongodb
