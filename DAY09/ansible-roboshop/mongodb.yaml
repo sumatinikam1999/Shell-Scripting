@@ -6,13 +6,19 @@
     ansible.builtin.copy:
       src: mongodb.repo
       dest: /etc/yum.repos.d/mongo.repo
+  - name: Clean yum cache
+    ansible.builtin.command: yum clean all
+
+  - name: Rebuild yum cache
+    ansible.builtin.command: yum makecache
+
   - name: Install MongoDB
     ansible.builtin.yum:
       name: mongodb-org
       state: installed
   - name: start and enable mongodb
     ansible.builtin.service:
-      name: mongodb
+      name: mongob
       state: started
       enabled: yes
   - name: enable remote connections to mongodb
