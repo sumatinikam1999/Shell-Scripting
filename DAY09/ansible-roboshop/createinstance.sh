@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+#set -x
 NAMES=$@
 INSTANCE_TYPE=""
 SECURITY_GROUP_ID=sg-07ee13d80d2ebe05a

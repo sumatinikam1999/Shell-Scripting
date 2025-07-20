@@ -1,8 +1,8 @@
 [mongodb]
-mongodb.devopslearner.space
+mongodb.devopslearner.space ansible_user=ec2-user
 
 [web]
-web.devopslearner.space
+web.devopslearner.space ansible_user=ec2-user
 
 [redis]
-redis.devopslearner.space
+redis.devopslearner.space ansible_user=ec2-user
