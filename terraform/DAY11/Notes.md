@@ -29,3 +29,12 @@
 - Tags are optional but strongly recommended.
 
 - You can filter, organize, and apply policies in Azure using tags (via Azure Policy).
+
+
+
+- outputs
+```
+output "output-variable-name" {
+    value = "value"
+}
+```
