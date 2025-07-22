@@ -7,3 +7,12 @@ resource "aws_instance" "ai" {
         Name = var.instance_names[count.index]
     }
 }
+
+resource "aws_route53_record" "record" {
+    count = 11
+    zone_id = var.zone_id
+    name = var.instance_names[count.index].devopslearner.space
+    type = "A"
+    ttl = 1
+    records = [aws_instance.conditions[count.inex].private_ip]
+}

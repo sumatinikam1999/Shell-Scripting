@@ -8,3 +8,7 @@ variable "instance_names" {
     type = list
     default = ["MongoDB", "Cart", "Catalogue", "User", "Payment", "Shipping", "Dispatch", "Mysql", "Redis", "Web", "RabbitMQ"]
 }
+
+variable "zone_id" {
+    default = "Z00027373O2OKHY987PPU"
+}
