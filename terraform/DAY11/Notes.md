@@ -38,3 +38,21 @@ output "output-variable-name" {
     value = "value"
 }
 ```
+
+
+#### conditions
+```
+if(exp){
+    if true these statements run
+}
+else{
+    if false these statements run
+}
+```
+
+```
+expression ? "this will run if true" : "this will run if false"
+```
+
+if mongodb we are creating t3.medium otherwise t2.micro
+
