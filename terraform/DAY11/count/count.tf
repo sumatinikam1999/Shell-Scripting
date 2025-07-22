@@ -11,7 +11,7 @@ resource "aws_instance" "ai" {
 resource "aws_route53_record" "record" {
     count = 11
     zone_id = var.zone_id
-    name = var.instance_names[count.index].devopslearner.space
+    name = "${var.instance_names[count.index]}.devopslearner.space" #when mixing string  variable give $ {} #interpolation
     type = "A"
     ttl = 1
     records = [aws_instance.conditions[count.inex].private_ip]
