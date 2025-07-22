@@ -56,3 +56,5 @@ expression ? "this will run if true" : "this will run if false"
 
 if mongodb we are creating t3.medium otherwise t2.micro
 
+#### loops
+** count and cpunt index **

@@ -1,0 +1,31 @@
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Ignore .tfvars files
+# These often contain sensitive information like credentials or specific environment values.
+*.tfvars
+*.tfvars.json
+
+# Ignore override files
+# These are often used for local overrides and not intended for version control.
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Optionally, ignore plan files if you frequently save them using terraform plan -out
+# You'll need to define a consistent naming convention for these files.
+# For example:
+# *.tfplan
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
