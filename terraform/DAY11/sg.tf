@@ -1,4 +1,4 @@
-resource "aws_security_group" {
+resource "aws_security_group" "allow_all" {
     name = var.sg
 
     ingress {
