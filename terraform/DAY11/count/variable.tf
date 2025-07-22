@@ -12,3 +12,7 @@ variable "instance_names" {
 variable "zone_id" {
     default = "Z00027373O2OKHY987PPU"
 }
+
+variable "domain" {
+    default = "devopslearner.space"
+}
