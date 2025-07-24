@@ -72,6 +72,9 @@ Edit – modify the commit content (e.g., change code).
 Drop – delete a commit entirely.
 
 
+
+Microsoft Enter ID(AD)
+
 Authentication: AWS account.  user,groups(dev,qa)
 Authorization: access to aws services. roles(readonly, accessrole)
 
