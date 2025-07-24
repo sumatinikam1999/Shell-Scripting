@@ -57,4 +57,21 @@ expression ? "this will run if true" : "this will run if false"
 if mongodb we are creating t3.medium otherwise t2.micro
 
 #### loops
-** count and cpunt index **
+** count and count index **
+
+
+
+Pick (default) – leave the commit as is.
+
+Squash – combine commits (useful for merging multiple commits into one).
+
+Reword – change the commit message.
+
+Edit – modify the commit content (e.g., change code).
+
+Drop – delete a commit entirely.
+
+
+Authentication: AWS account.  user,groups(dev,qa)
+Authorization: access to aws services. roles(readonly, accessrole)
+
